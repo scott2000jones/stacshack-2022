@@ -8,7 +8,7 @@ import Register from "./Components/Register";
 import Gang from "./Components/Gang";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import React, {Component} from "react";
-import Webrtc_test_page from "./Components/webrtc_test_page"
+// import Webrtc_test_page from "./Components/webrtc_test_page"
  
 class App extends Component {
 
@@ -67,7 +67,7 @@ render() {
             <Route path="/call" component={Call}/>
             <Route path = "/register" component={Register}/>
             <Route path="/gang/:id" component={Gang}/>
-            <Route path="/webrtc_test_page" component={Webrtc_test_page}/>
+            {/*<Route path="/webrtc_test_page" component={Webrtc_test_page}/>*/}
           </Switch>
         </div>
         </div>

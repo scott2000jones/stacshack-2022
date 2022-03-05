@@ -23,3 +23,12 @@ export async function register(name, password){
     const res = await API.get("/register/" + name + "." + password);
     return res.data;
 }
+
+export async function is_user_logged_in(name){
+    const data = {
+        name
+    }
+    const res = await API.get("/is_user_logged_in/" + name);
+    return res.data;
+}
+
