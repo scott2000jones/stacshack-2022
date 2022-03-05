@@ -12,6 +12,7 @@ DB = Sequel.sqlite('database.db')
 # DB.run "CREATE TABLE teams (team_name VARCHAR(255) NOT NULL UNIQUE PRIMARY KEY)"
 # DB.run "CREATE TABLE team_user_lookup (team_name VARCHAR(255) NOT NULL UNIQUE, user_name VARCHAR(255) NOT NULL UNIQUE, FOREIGN KEY (team_name) REFERENCES teams (team_name), FOREIGN KEY (user_name) REFERENCES users (name))"
 # DB.run "CREATE TABLE dms (team_name VARCHAR(255) NOT NULL, sent_by VARCHAR(255) NOT NULL, content VARCHAR(255), timestamp INTEGER, FOREIGN KEY (team_name) REFERENCES teams (team_name), FOREIGN KEY (sent_by) REFERENCES users (name))"
+# DB.run "CREATE TABLE current_logins (user_name VARCHAR(255) NOT NULL, FOREIGN KEY (user_name) REFERENCES users (name))"
 
 puts DB.schema(:users)
 puts DB.schema(:teams)
@@ -44,7 +45,17 @@ def check_in_db(target_name, target_pw)
 end
 
 get "/login/*.*" do |name,password|
-    check_in_db(name, password) ? "TRUE" : "FALSE"
+    res = "FALSE"
+    if check_in_db(name, password) then
+        DB.run "INSERT INTO current_logins (user_name) VALUES (\"" + name + "\")"
+        res = "TRUE"
+    end
+    res
+end
+
+get "/logout/*" do |name|
+    DB.run "DELETE FROM current_logins WHERE user_name = \"" + name + "\""
+    "Ok!\n"
 end
 
 get "/create_team/*" do |team_name|
@@ -63,6 +74,26 @@ end
 
 get "/team_user_lookup" do
     DB[:team_user_lookup].all.to_json
+end
+
+get "/is_user_logged_in/*" do |user_name|
+    res = "FALSE"
+    DB[:current_logins].each do |item|
+        if item[:user_name] == user_name then 
+            res = "TRUE"
+        end
+    end
+    res
+end
+
+get "/list_users_in_team/*" do |team_name| 
+    res = Array.new
+    DB[:team_user_lookup].each do |item|
+        if item[:team_name] == team_name then 
+            res.append(item[:user_name])
+        end
+    end
+    res.to_json
 end
 
 get "/is_user_in_team/*.*" do |user_name,team_name|
