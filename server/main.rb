@@ -43,7 +43,8 @@ end
 
 post "/create_team" do
     @team_name = params["team_name"]
-    "NOT IMPLEMENTED YET"
+    DB.run "INSERT INTO teams (team_name) VALUES (\"" + @team_name + "\")"
+    "Ok!\n"
 end
 
 post "/add_user_to_team" do
@@ -54,4 +55,9 @@ end
 
 get "/list_teams" do
     DB[:teams].all.to_s
+end
+
+get "/delete_all_teams" do
+    DB.run "DELETE FROM teams"
+    "Ok!\n"
 end
