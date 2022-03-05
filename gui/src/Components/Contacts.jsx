@@ -50,28 +50,19 @@ class Contacts extends Component {
 
 
     addTeam(name){
-        console.log("here: " + this.state.team +"," +name)
-
-            // e.preventDefault();
-            // console.log("send: " + this.state.message);
-    
-            // let team_name = "jam"
-            // let message = this.state.message.replaceAll(' ', '_');
-    
-            // API.get("/send_dm/" + team_name + "." + this.state.current_user + "." + message)
-            // .then(response => {
-            //     if(response.ok){
-            //         this.setState({message: ""})
-            //     }
+            API.get("/add_user_to_team/" + this.state.team + "." + name )
+            .then(response => {
+                if(response.ok){
+                    this.setState({showModal: false})
+                }
                 
-            // })
-            // .catch(err => this.setState({error: err.response}));
+            })
+            .catch(err => this.setState({error: err.response}));
         
     }
-    buttonPersonAdd(team) {
+    buttonPersonAdd() {
 
         return this.state.people.map(data2 => {
-            console.log(team)
             return <div><Button key={data2.name} variant="primary" onClick= {()=>this.addTeam(data2.name)} >{data2.name} </Button><br></br></div>
         })
     }
@@ -96,7 +87,7 @@ class Contacts extends Component {
                                 </Modal.Header>
 
                                 <Modal.Body>
-                                    {this.buttonPersonAdd(data.team_name)}
+                                    {this.buttonPersonAdd()}
                                 </Modal.Body>
                                 <Modal.Footer>
                                     <Button variant="secondary" onClick={() => this.showModal("")}>
