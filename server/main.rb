@@ -1,5 +1,11 @@
 require 'sinatra'
 require 'sequel'
+require 'sinatra/cross_origin'
+require 'json'
+
+configure do
+  enable :cross_origin
+end
 
 DB = Sequel.sqlite('database.db')
 # DB.run "CREATE TABLE users (name VARCHAR(255) NOT NULL UNIQUE PRIMARY KEY, password VARCHAR(255) NOT NULL)"
@@ -11,7 +17,7 @@ puts DB.schema(:users)
 puts DB.schema(:teams)
 puts DB.schema(:team_user_lookup)
 get '/' do
-    DB[:users].all.to_s
+    DB[:users].all.to_json
 end
 
 post "/register" do
@@ -22,7 +28,7 @@ post "/register" do
 end
 
 get "/list_users" do
-    DB[:users].all.to_s
+    DB[:users].all.to_json
     "Ok!\n"
 end
 
@@ -55,11 +61,12 @@ end
 post "/add_user_to_team" do
     @team_name = params["team_name"]
     @user_name = params["user_name"]
-    "NOT IMPLEMENTED YET\n"
+    DB.run "INSERT INTO team_user_lookup (team_name, user_name) VALUES (\"" + @team_name + "\", \"" + @user_name + "\")"
+    "Ok!\n"
 end
 
 get "/list_teams" do
-    DB[:teams].all.to_s
+    DB[:teams].all.to_json
 end
 
 get "/delete_all_teams" do
@@ -76,5 +83,5 @@ post "/send_dm" do
 end
 
 get "/list_dms" do
-    DB[:dms].all.to_s
+    DB[:dms].all.to_json
 end
