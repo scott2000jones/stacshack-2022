@@ -18,12 +18,17 @@ post "/register" do
     @name = params["name"]
     @password = params["password"]
     DB.run "INSERT INTO users (name, password) VALUES (\"" + @name + "\", \"" + @password + "\")"
-    "Ok!"
+    "Ok!\n"
+end
+
+get "/list_users" do
+    DB[:users].all.to_s
+    "Ok!\n"
 end
 
 get "/drop_all_users" do
     DB.run "DELETE FROM users"
-    "Ok!"
+    "Ok!\n"
 end
 
 def check_in_db(target_name, target_pw)
@@ -50,7 +55,7 @@ end
 post "/add_user_to_team" do
     @team_name = params["team_name"]
     @user_name = params["user_name"]
-    "NOT IMPLEMENTED YET"
+    "NOT IMPLEMENTED YET\n"
 end
 
 get "/list_teams" do
@@ -60,4 +65,16 @@ end
 get "/delete_all_teams" do
     DB.run "DELETE FROM teams"
     "Ok!\n"
+end
+
+post "/send_dm" do
+    @team_name = params["team_name"]
+    @sent_by = params["sent_by"]
+    @content = params["content"]
+    DB.run "INSERT INTO dms (team_name, sent_by, content, timestamp) VALUES (\"" + @team_name + "\", \"" + @sent_by + "\", \"" + @content + "\", " + Time.now.to_i.to_s +  ")"
+    "Ok!\n"
+end
+
+get "/list_dms" do
+    DB[:dms].all.to_s
 end
