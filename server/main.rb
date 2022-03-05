@@ -51,3 +51,7 @@ post "/add_user_to_team" do
     @user_name = params["user_name"]
     "NOT IMPLEMENTED YET"
 end
+
+get "/list_teams" do
+    DB[:teams].all.to_s
+end
