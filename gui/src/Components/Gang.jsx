@@ -3,6 +3,7 @@ import Card from "react-bootstrap/Card";
 import Button from "react-bootstrap/Button";
 import {Container, Row, Col} from "react-bootstrap";
 import {Telephone} from "react-bootstrap-icons";
+import Chat from "./Chat";
 
 class Gang extends Component {
     state = { 
@@ -29,6 +30,7 @@ class Gang extends Component {
                     <Card className="mt-3">
                         <Card.Body>
                             <Card.Title>Messages</Card.Title>
+                            <Chat></Chat>
                         </Card.Body>
                     </Card>
                 </Card.Body>
