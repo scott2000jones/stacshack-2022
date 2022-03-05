@@ -8,15 +8,49 @@ import Register from "./Components/Register";
 import Gang from "./Components/Gang";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import React, {Component} from "react";
- 
 import Webrtc_test_page from "./Components/webrtc_test_page"
+ 
+class App extends Component {
 
-function App() {
+    constructor() {
+      super();
+      const persistedAuth = localStorage.getItem("auth");
+
+      this.state = {
+        auth: {
+          loggedIn: !!persistedAuth,
+          name: persistedAuth != 'null' ? persistedAuth:  undefined,
+        }
+      }
+      this.updateAuth = this.updateAuth.bind(this);
+  }
+
+  updateAuth(name) {
+    if (name) {
+      this.setState({
+        auth: {
+          loggedIn: true,
+          name,
+        }
+      });
+      localStorage.setItem("auth", name);
+    } else {
+      this.setState({
+        auth: {
+          loggedIn: false,
+          name: undefined,
+        }
+      })
+      localStorage.setItem("auth", null);
+    }
+  }
+
+render() {
   return (
     <Router>
       <Route component={Navigation}/>
-      <div className="App h-100" style={{ "background-color": "#66090D" }}>
-        <div className="App h-100">
+      <div className="App" style={{ "background-color": "#66090D" }}>
+        <div className="App">
         {/* <Route component={HeaderBar}/> */}
         <div className="container-md">
           <Switch>

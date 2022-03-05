@@ -1,6 +1,8 @@
 import Axios from "axios"
 import qs from "query-string"
 
+import API from "../API";
+
 const instance = Axios.create({
     baseURL: "https://saj7.host.cs.st-andrews.ac.uk/gangs"
 })
@@ -10,14 +12,14 @@ export async function login(name, password){
         name, password
     }
 
-    const res = await instance.post("login",qs.stringify(data));
+    const res = await API.get("/login/" + name + "." + password);
     return res.data;
 }
 
-export async function register(firstName, lastName, username, email, password){
+export async function register(name, password){
     const data = {
-        firstName, lastName, email, password
+        name, password
     }
-    const res = await instance.post("register",qs.stringify(data));
+    const res = await API.get("/register/" + name + "." + password);
     return res.data;
 }

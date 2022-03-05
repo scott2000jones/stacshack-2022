@@ -9,11 +9,9 @@ import logo from "../images/logo.png";
 class Navigation extends Component {
     state = {  } 
 
-
-
     render() { 
         return (
-            <Navbar>
+            <Navbar variant="dark" bg="secondary">
                 <Navbar.Brand  as={Link} to="/">
                   <img
                     alt=""

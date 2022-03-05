@@ -1,15 +1,14 @@
 import React, { Component } from 'react';
 import {register as apiRegister} from "../lib/api";
+import Form from 'react-bootstrap/Form'
+import {FormControl, FormGroup, Button, Card} from "react-bootstrap";
 
 class Register extends Component {
 
     constructor() {
         super();
         this.state = {
-            firstName: "",
-            lastName: "",
-            username: "",
-            email: "",
+            name: "",
             password: "",
         }
         this.handleChange = this.handleChange.bind(this);
@@ -24,40 +23,32 @@ class Register extends Component {
 
     async register(e) {
         e.preventDefault()
-        const res = await apiRegister(this.state.firstName, this.state.lastName, this.state.username, this.state.email, this.state.password)
-        if (res === "TRUE") {
-            this.props.updateAuth(this.state.name)
-        } else {
-            this.props.updateAuth();
-        }
+        const res = await apiRegister(this.state.name, this.state.password)
     }
 
     state = {  }
+
     render() {
         return (
-            <form className='mt-5 border-secondary'>
-                <h3>Sign Up</h3>
-                <div className="form-group">
-                    <label>First name</label>
-                    <input type="text" className="form-control" placeholder="First name" />
-                </div>
-                <div className="form-group">
-                    <label>Last name</label>
-                    <input type="text" className="form-control" placeholder="Last name" />
-                </div>
-                <div className="form-group">
-                    <label>Email address</label>
-                    <input type="email" className="form-control" placeholder="Enter email" />
-                </div>
-                <div className="form-group">
-                    <label>Password</label>
-                    <input type="password" className="form-control" placeholder="Enter password" />
-                </div>
-                <button type="submit" className="btn btn-primary btn-block">Sign Up</button>
-                <p className="forgot-password text-right">
-                    Already registered <a href="#">sign in?</a>
-                </p>
-            </form>
+            <Card>
+                <Card.Body style={{background: "#F6CFB2"}}>
+                    <Card.Title>Sign Up</Card.Title>
+                    <Form className='mt-5 border-secondary' onSubmit={this.register}>
+                        <FormGroup className="mt-2">
+                            <Form.Label>Username</Form.Label>
+                            <FormControl type="text" placeholder="Enter username" value={this.state.name} onChange={this.handleChange("name")} />
+                        </FormGroup>
+                        <FormGroup className="mt-2">
+                            <Form.Label>Password</Form.Label>
+                            <FormControl type="password" placeholder="Enter password" value={this.state.password} onChange={this.handleChange("password")} />
+                        </FormGroup>
+                        <Button className= "mt-2" type="submit" variant="primary">Sign Up</Button>
+                        <p className="forgot-password text-right">
+                            Already registered <a href="#">sign in?</a>
+                        </p>
+                    </Form>
+                </Card.Body>
+            </Card>
         );
     }
 }
