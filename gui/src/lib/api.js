@@ -10,14 +10,14 @@ export async function login(name, password){
         name, password
     }
 
-    const res = await instance.post("login",qs.stringify(data));
+    const res = await instance.get("login",qs.stringify(data));
     return res.data;
 }
 
-export async function register(firstName, lastName, username, email, password){
+export async function register(name, password){
     const data = {
-        firstName, lastName, email, password
+        name, password
     }
-    const res = await instance.post("register",qs.stringify(data));
+    const res = await instance.get("register",qs.stringify(data));
     return res.data;
 }

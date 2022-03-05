@@ -6,10 +6,7 @@ class Register extends Component {
     constructor() {
         super();
         this.state = {
-            firstName: "",
-            lastName: "",
             username: "",
-            email: "",
             password: "",
         }
         this.handleChange = this.handleChange.bind(this);
@@ -24,7 +21,7 @@ class Register extends Component {
 
     async register(e) {
         e.preventDefault()
-        const res = await apiRegister(this.state.firstName, this.state.lastName, this.state.username, this.state.email, this.state.password)
+        const res = await apiRegister(this.state.username, this.state.password)
         if (res === "TRUE") {
             this.props.updateAuth(this.state.name)
         } else {
@@ -38,20 +35,12 @@ class Register extends Component {
             <form className='mt-5 border-secondary'>
                 <h3>Sign Up</h3>
                 <div className="form-group">
-                    <label>First name</label>
-                    <input type="text" className="form-control" placeholder="First name" />
-                </div>
-                <div className="form-group">
-                    <label>Last name</label>
-                    <input type="text" className="form-control" placeholder="Last name" />
-                </div>
-                <div className="form-group">
-                    <label>Email address</label>
-                    <input type="email" className="form-control" placeholder="Enter email" />
+                    <label>Username</label>
+                    <input type="text" className="form-control" placeholder="Enter username" value={this.state.name} onChange={this.handleChange("name")} />
                 </div>
                 <div className="form-group">
                     <label>Password</label>
-                    <input type="password" className="form-control" placeholder="Enter password" />
+                    <input type="password" className="form-control" placeholder="Enter password" value={this.state.password} onChange={this.handleChange("password")} />
                 </div>
                 <button type="submit" className="btn btn-primary btn-block">Sign Up</button>
                 <p className="forgot-password text-right">
