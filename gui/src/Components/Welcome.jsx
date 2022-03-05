@@ -10,8 +10,12 @@ class Welcome extends Component {
         return (
         <Card className='mt-4 border-secondary'>
             <Card.Body>
-                <Card.Title>Hello World</Card.Title>
+                <Card.Title>Hello {this.props.auth?.name || "World"}</Card.Title>
                 <Button variant="primary">Click Me</Button>
+
+                <Card>
+                    
+                </Card>
             </Card.Body>
         </Card>
         );
