@@ -7,6 +7,7 @@ import Toast from 'react-bootstrap/Toast';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import InputGroup from 'react-bootstrap/InputGroup';
+import { Container, Row, Col } from 'react-bootstrap';
 import timeSince from '../timeSince';
 
 
@@ -56,33 +57,49 @@ class Chat extends Component {
 
     render() { 
         return (
-            <Card>
-                {this.state.loading ? <h1>Loading</h1> :
-
-                this.state.messages.map(msg =>{
-                    return(
-                        <div className="d-flex">
-                        {msg.sent_by == this.state.current_user ?  <Toast>
-                            <Toast.Header closeButton={false} style={{background:"#85040E"}}className="flex-right">
-                                {/* <img src="holder.js/20x20?text=%20" className="rounded me-2" alt="" /> */}
-                                <strong className="me-auto">ME</strong>
-                                <small>{timeSince(msg.timestamp)} ago</small>
-                            </Toast.Header>
-                            <Toast.Body>{msg.content}</Toast.Body>
-                           </Toast> :
-                            <Toast>
-                                <Toast.Header closeButton={false}>
+            <Card className="w-100">
+                <Card.Body>
+                    {this.state.loading ? <h1>Loading</h1> :
+                <Container>
+                    <Row>
+                        {this.state.messages.map(msg =>(
+                            <div className="d-flex">
+                            {msg.sent_by == this.state.current_user ?  
+                            <>
+                            <Col></Col>
+                            <Col>
+                            <Toast position={'top-end'}>
+                                <Toast.Header closeButton={false} style={{background:"#85040E"}} >
                                     {/* <img src="holder.js/20x20?text=%20" className="rounded me-2" alt="" /> */}
-                                    <strong className="me-auto">{msg.sent_by}</strong>
+                                    <strong className="me-auto">ME</strong>
                                     <small>{timeSince(msg.timestamp)} ago</small>
                                 </Toast.Header>
-                                <Toast.Body>{msg.content}</Toast.Body>
+                                <Toast.Body textAlign={'Right'}>{msg.content}</Toast.Body>
                             </Toast>
-                        }
-                        </div>
-                    );
-                })
+                            </Col>
+                            </> :
+                            <>
+                            <Col>
+                                <Toast>
+                                    <Toast.Header closeButton={false} >
+                                        {/* <img src="holder.js/20x20?text=%20" className="rounded me-2" alt="" /> */}
+                                        <strong className="me-auto">{msg.sent_by}</strong>
+                                        <small>{timeSince(msg.timestamp)} ago</small>
+                                    </Toast.Header>
+                                    <Toast.Body>{msg.content}</Toast.Body>
+                                </Toast>
+                                </Col>
+                                <Col></Col>
+                            </>
+                            }
+                            </div>
+                        )
+                    )}
+                    </Row>
+                    </Container>
             }
+                </Card.Body>
+                
             <Form onSubmit={this.handleSubmit.bind(this)}>
                 <InputGroup>
                 <Form.Control 
