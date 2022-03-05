@@ -2,12 +2,12 @@ import React, { Component } from 'react';
 import Navbar from "react-bootstrap/Navbar";
 import Nav from "react-bootstrap/Nav";
 import NavDropdown from "react-bootstrap/NavDropdown";
-import { Link } from "react-router-dom";
+import {Link, Route} from "react-router-dom";
 import logo from "../images/logo.png";
+import Profile from "./Profile";
 
 
 class Navigation extends Component {
-
 
     logoutButton() {
         if (localStorage.getItem("auth") == null || localStorage.getItem("auth") == "null") {
@@ -24,10 +24,15 @@ class Navigation extends Component {
         )
     }
 
-    render() { 
+    render() {
+        let profile = <></>
+        if (localStorage.getItem("auth") != null && localStorage.getItem("auth") != "null") profile = (
+            <Nav.Link as={Link} to="/profile">
+                Profile
+            </Nav.Link>)
         return (
             <Navbar variant="dark" bg="secondary">
-                <Navbar.Brand  as={Link} to="/">
+                <Navbar.Brand as={Link} to="/">
                   <img
                     alt=""
                     src={logo}
@@ -36,7 +41,6 @@ class Navigation extends Component {
                     className="d-inline-block align-center m-2"
                   />{" "}
                 </Navbar.Brand>
-
                 <Navbar.Toggle aria-controls="basic-navbar-nav" />
             <Navbar.Collapse id="basic-navbar-nav">
             <Nav className="mr-auto">
@@ -47,6 +51,7 @@ class Navigation extends Component {
                 Contacts
               </Nav.Link>
                 {this.logoutButton()}
+                {profile}
 
             </Nav>
             </Navbar.Collapse>

@@ -6,6 +6,7 @@ import Call from "./Components/Call";
 import Navigation from './Components/Navigation';
 import Register from "./Components/Register";
 import Gang from "./Components/Gang";
+import Profile from "./Components/Profile";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import React, {Component} from "react";
 // import Webrtc_test_page from "./Components/webrtc_test_page"
@@ -46,6 +47,7 @@ class App extends Component {
   }
 
 render() {
+
   return (
     <Router>
       <Route component={Navigation}/>
@@ -67,6 +69,9 @@ render() {
             <Route path="/call" component={Call}/>
             <Route path = "/register" component={Register}/>
             <Route path="/gang/:id" component={Gang}/>
+            <Route exact path="/profile">
+              <Profile auth={this.state.auth} />
+            </Route>
             {/*<Route path="/webrtc_test_page" component={Webrtc_test_page}/>*/}
           </Switch>
         </div>
