@@ -65,6 +65,16 @@ get "/team_user_lookup" do
     DB[:team_user_lookup].all.to_json
 end
 
+get "/is_user_in_team/*.*" do |user_name,team_name|
+    res = "FALSE"
+    DB[:team_user_lookup].each do |item|
+        if item[:team_name] == team_name && item[:user_name] == user_name then 
+            res = "TRUE"
+        end
+    end
+    res
+end
+
 get "/delete_all_teams" do
     DB.run "DELETE FROM teams"
     "Ok!\n"
@@ -83,7 +93,6 @@ end
 get "/list_dms/*" do |team_name|
     res = Array.new
     DB[:dms].all.each do |item|
-        puts item
         if item[:team_name] == team_name then
             res.append(item)
         end
