@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import 'bootstrap/dist/css/bootstrap.css';
-import {login as apiLogin} from "../lib/api"
+import {login as apiLogin} from "../lib/api";
 
 class Login extends Component {
 
@@ -20,18 +20,24 @@ class Login extends Component {
         })
     }
 
-    login(e) {
+    async login(e) {
         e.preventDefault()
-        apiLogin(this.state.name, this.state.password)
+        const res = await apiLogin(this.state.name, this.state.password)
+        if (res === "TRUE") {
+            this.props.updateAuth(this.state.name)
+        } else {
+            this.props.updateAuth();
+        }
     }
 
-    render() { 
+    render() {
         return (
             <form className='mt-5 border-secondary'>
+                Logged In?: {this.props.auth.loggedIn ? "Yes" : "No"}
                 <h3>Sign In</h3>
                 <div className="form-group">
-                    <label>Email address</label>
-                    <input type="email" className="form-control" placeholder="Enter email" value={this.state.name} onChange={this.handleChange("name")} />
+                    <label>Username</label>
+                    <input type="text" className="form-control" placeholder="Enter username" value={this.state.name} onChange={this.handleChange("name")} />
                 </div>
                 <div className="form-group">
                     <label>Password</label>
