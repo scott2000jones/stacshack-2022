@@ -6,24 +6,23 @@ import Call from "./Components/Call";
 import Navigation from './Components/Navigation';
 import Register from "./Components/Register";
 import Gang from "./Components/Gang";
-
-
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import React, {Component} from "react";
+import Webrtc_test_page from "./Components/webrtc_test_page"
  
 class App extends Component {
 
     constructor() {
-    super();
-    const persistedAuth = localStorage.getItem("auth");
+      super();
+      const persistedAuth = localStorage.getItem("auth");
 
-    this.state = {
-      auth: {
-        loggedIn: !!persistedAuth,
-        name: persistedAuth != 'null' ? persistedAuth:  undefined,
+      this.state = {
+        auth: {
+          loggedIn: !!persistedAuth,
+          name: persistedAuth != 'null' ? persistedAuth:  undefined,
+        }
       }
-    }
-    this.updateAuth = this.updateAuth.bind(this);
+      this.updateAuth = this.updateAuth.bind(this);
   }
 
   updateAuth(name) {
@@ -46,12 +45,12 @@ class App extends Component {
     }
   }
 
-  render(){
+render() {
   return (
     <Router>
       <Route component={Navigation}/>
-      <div className="App h-100" style={{ "background-color": "#66090D" }}>
-        <div className="App h-100">
+      <div className="App" style={{ "background-color": "#66090D" }}>
+        <div className="App">
         {/* <Route component={HeaderBar}/> */}
         <div className="container-md">
           <Switch>
@@ -68,7 +67,8 @@ class App extends Component {
             <Route path="/call" component={Call}/>
             <Route path = "/register" component={Register}/>
             <Route path="/gang/:id" component={Gang}/>
-        </Switch>
+            <Route path="/webrtc_test_page" component={Webrtc_test_page}/>
+          </Switch>
         </div>
         </div>
         </div>
