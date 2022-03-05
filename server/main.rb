@@ -61,6 +61,10 @@ get "/list_teams" do
     DB[:teams].all.to_json
 end
 
+get "/team_user_lookup" do
+    DB[:team_user_lookup].all.to_json
+end
+
 get "/delete_all_teams" do
     DB.run "DELETE FROM teams"
     "Ok!\n"
