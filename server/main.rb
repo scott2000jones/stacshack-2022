@@ -20,16 +20,13 @@ get '/' do
     DB[:users].all.to_json
 end
 
-post "/register" do
-    @name = params["name"]
-    @password = params["password"]
-    DB.run "INSERT INTO users (name, password) VALUES (\"" + @name + "\", \"" + @password + "\")"
+get "/register/*.*" do |name,password|
+    DB.run "INSERT INTO users (name, password) VALUES (\"" + name + "\", \"" + password + "\")"
     "Ok!\n"
 end
 
 get "/list_users" do
     DB[:users].all.to_json
-    "Ok!\n"
 end
 
 get "/drop_all_users" do
@@ -46,22 +43,17 @@ def check_in_db(target_name, target_pw)
     return false
 end
 
-post "/login" do
-    @name = params["name"]
-    @password = params["password"]
-    check_in_db(@name, @password) ? "TRUE" : "FALSE"
+get "/login/*.*" do |name,password|
+    check_in_db(name, password) ? "TRUE" : "FALSE"
 end
 
-post "/create_team" do
-    @team_name = params["team_name"]
-    DB.run "INSERT INTO teams (team_name) VALUES (\"" + @team_name + "\")"
+get "/create_team/*" do |team_name|
+    DB.run "INSERT INTO teams (team_name) VALUES (\"" + team_name + "\")"
     "Ok!\n"
 end
 
-post "/add_user_to_team" do
-    @team_name = params["team_name"]
-    @user_name = params["user_name"]
-    DB.run "INSERT INTO team_user_lookup (team_name, user_name) VALUES (\"" + @team_name + "\", \"" + @user_name + "\")"
+get "/add_user_to_team/*.*" do |team_name,user_name|
+    DB.run "INSERT INTO team_user_lookup (team_name, user_name) VALUES (\"" + team_name + "\", \"" + user_name + "\")"
     "Ok!\n"
 end
 
@@ -69,16 +61,28 @@ get "/list_teams" do
     DB[:teams].all.to_json
 end
 
+get "/team_user_lookup" do
+    DB[:team_user_lookup].all.to_json
+end
+
+get "/is_user_in_team/*.*" do |user_name,team_name|
+    res = "FALSE"
+    DB[:team_user_lookup].each do |item|
+        if item[:team_name] == team_name && item[:user_name] == user_name then 
+            res = "TRUE"
+        end
+    end
+    res
+end
+
 get "/delete_all_teams" do
     DB.run "DELETE FROM teams"
     "Ok!\n"
 end
 
-post "/send_dm" do
-    @team_name = params["team_name"]
-    @sent_by = params["sent_by"]
-    @content = params["content"]
-    DB.run "INSERT INTO dms (team_name, sent_by, content, timestamp) VALUES (\"" + @team_name + "\", \"" + @sent_by + "\", \"" + @content + "\", " + Time.now.to_i.to_s +  ")"
+get "/send_dm/*.*.*" do |team_name,sent_by,content|
+    content = content.tr("_"," ")
+    DB.run "INSERT INTO dms (team_name, sent_by, content, timestamp) VALUES (\"" + team_name + "\", \"" + sent_by + "\", \"" + content + "\", " + Time.now.to_i.to_s +  ")"
     "Ok!\n"
 end
 
@@ -86,12 +90,10 @@ get "/list_all_dms" do
     DB[:dms].all.to_json
 end
 
-get "/list_dms/:team_name" do
-    @team_name = params["team_name"]
+get "/list_dms/*" do |team_name|
     res = Array.new
     DB[:dms].all.each do |item|
-        puts item
-        if item[:team_name] == @team_name then
+        if item[:team_name] == team_name then
             res.append(item)
         end
     end
