@@ -6,47 +6,12 @@ import Call from "./Components/Call";
 import Navigation from './Components/Navigation';
 import Register from "./Components/Register";
 import Gang from "./Components/Gang";
-
-
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import React, {Component} from "react";
  
-class App extends Component {
+import Webrtc_test_page from "./Components/webrtc_test_page"
 
-    constructor() {
-    super();
-    const persistedAuth = localStorage.getItem("auth");
-
-    this.state = {
-      auth: {
-        loggedIn: !!persistedAuth,
-        name: persistedAuth != 'null' ? persistedAuth:  undefined,
-      }
-    }
-    this.updateAuth = this.updateAuth.bind(this);
-  }
-
-  updateAuth(name) {
-    if (name) {
-      this.setState({
-        auth: {
-          loggedIn: true,
-          name,
-        }
-      });
-      localStorage.setItem("auth", name);
-    } else {
-      this.setState({
-        auth: {
-          loggedIn: false,
-          name: undefined,
-        }
-      })
-      localStorage.setItem("auth", null);
-    }
-  }
-
-  render(){
+function App() {
   return (
     <Router>
       <Route component={Navigation}/>
@@ -68,7 +33,8 @@ class App extends Component {
             <Route path="/call" component={Call}/>
             <Route path = "/register" component={Register}/>
             <Route path="/gang/:id" component={Gang}/>
-        </Switch>
+            <Route path="/webrtc_test_page" component={Webrtc_test_page}/>
+          </Switch>
         </div>
         </div>
         </div>
