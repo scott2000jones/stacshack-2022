@@ -4,14 +4,17 @@ import Welcome from "./Components/Welcome";
 import Login from "./Components/Login";
 import Contacts from "./Components/Contacts";
 import Call from "./Components/Call";
+import Navigation from './Components/Navigation';
 import Register from "./Components/Register";
+import Gang from "./Components/Gang";
 
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
  
 function App() {
   return (
     <Router>
-    <div className="App h-100">
+      <Route component={Navigation}/>
+    <div className="App h-100" style={{ "background-color": "#66090D" }}>
   
         {/* <Route component={HeaderBar}/> */}
         <div className="container-md">
@@ -21,7 +24,8 @@ function App() {
             <Route path="/login" component={Login}/>
             <Route path="/contacts" component={Contacts}/>
             <Route path="/call" component={Call}/>
-            <Route path = "/register" component={Register}/>
+            <Route path ="/register" component={Register}/>
+            <Route path="/gang/:id" component={Gang}/>
 
           </Switch>
         </div>
