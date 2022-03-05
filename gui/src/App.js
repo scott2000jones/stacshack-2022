@@ -6,6 +6,7 @@ import Contacts from "./Components/Contacts";
 import Call from "./Components/Call";
 import Navigation from './Components/Navigation';
 import Register from "./Components/Register";
+import Gang from "./Components/Gang";
 
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
  
@@ -23,7 +24,8 @@ function App() {
             <Route path="/login" component={Login}/>
             <Route path="/contacts" component={Contacts}/>
             <Route path="/call" component={Call}/>
-            <Route path = "/register" component={Register}/>
+            <Route path ="/register" component={Register}/>
+            <Route path="/gang/:id" component={Gang}/>
 
           </Switch>
         </div>
