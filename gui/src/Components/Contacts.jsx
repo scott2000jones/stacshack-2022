@@ -10,6 +10,8 @@ class Contacts extends Component {
         showModal: false,
         gangs: [],
         people: [],
+        team: "",
+        name:"",
         error: null
     }
 
@@ -42,17 +44,35 @@ class Contacts extends Component {
                 })
     }
     
-    showModal = () => {
-        this.setState({ showModal: !this.state.showModal });
+    showModal = (team) => {
+        this.setState({ showModal: !this.state.showModal, team:team });
     };
 
 
-    addTeam(team,name){
-        console.log(team +"," +name)
+    addTeam(name){
+        console.log("here: " + this.state.team +"," +name)
+
+            // e.preventDefault();
+            // console.log("send: " + this.state.message);
+    
+            // let team_name = "jam"
+            // let message = this.state.message.replaceAll(' ', '_');
+    
+            // API.get("/send_dm/" + team_name + "." + this.state.current_user + "." + message)
+            // .then(response => {
+            //     if(response.ok){
+            //         this.setState({message: ""})
+            //     }
+                
+            // })
+            // .catch(err => this.setState({error: err.response}));
+        
     }
     buttonPersonAdd(team) {
+
         return this.state.people.map(data2 => {
-            return <div><Button variant="primary" onClick= {()=>this.addTeam(team,data2.name)} >{data2.name} </Button><br></br></div>
+            console.log(team)
+            return <div><Button key={data2.name} variant="primary" onClick= {()=>this.addTeam(data2.name)} >{data2.name} </Button><br></br></div>
         })
     }
 
@@ -60,20 +80,18 @@ class Contacts extends Component {
         return this.state.gangs.map(data => {
                 return (
                     <div>
-
-
-                        <Card style={{ width: '18rem' }} className='mt-4 border-danger' shadow={4}>
+                        <Card key={data.team_name} style={{ width: '18rem' }} className='mt-4 border-danger' shadow={4}>
                             <Card.Body>
                                 <Card.Title> {data.team_name}</Card.Title>
                                 <Card.Text>
                                     
                                 </Card.Text>
                                 <Button variant="primary">View Gang</Button>
-                                <Button id={this.index} onClick={this.showModal} variant="primary">Add People to Gang</Button>
+                                <Button id={this.index} onClick={() => this.showModal(data.team_name)} variant="primary">Add People to Gang</Button>
                             </Card.Body>
 
                             <Modal show={this.state.showModal}>
-                                <Modal.Header closeButton onClick={() => this.showModal()}>
+                                <Modal.Header closeButton onClick={() => this.showModal("")}>
                                     <Modal.Title>Add to Gang</Modal.Title>
                                 </Modal.Header>
 
@@ -81,7 +99,7 @@ class Contacts extends Component {
                                     {this.buttonPersonAdd(data.team_name)}
                                 </Modal.Body>
                                 <Modal.Footer>
-                                    <Button variant="secondary" onClick={() => this.showModal()}>
+                                    <Button variant="secondary" onClick={() => this.showModal("")}>
                                         Close
                             </Button>
                                 </Modal.Footer>
