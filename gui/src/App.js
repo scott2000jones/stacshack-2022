@@ -7,9 +7,10 @@ import Call from "./Components/Call";
 import Navigation from './Components/Navigation';
 import Register from "./Components/Register";
 import Gang from "./Components/Gang";
-
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
  
+import Webrtc_test_page from "./Components/webrtc_test_page"
+
 function App() {
   return (
     <Router>
@@ -26,7 +27,7 @@ function App() {
             <Route path="/call" component={Call}/>
             <Route path ="/register" component={Register}/>
             <Route path="/gang/:id" component={Gang}/>
-
+            <Route path="/webrtc_test_page" component={Webrtc_test_page}/>
           </Switch>
         </div>
     </div>
