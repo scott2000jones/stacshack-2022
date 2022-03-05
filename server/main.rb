@@ -82,6 +82,18 @@ post "/send_dm" do
     "Ok!\n"
 end
 
-get "/list_dms" do
+get "/list_all_dms" do
     DB[:dms].all.to_json
+end
+
+get "/list_dms/:team_name" do
+    @team_name = params["team_name"]
+    res = Array.new
+    DB[:dms].all.each do |item|
+        puts item
+        if item[:team_name] == @team_name then
+            res.append(item)
+        end
+    end
+    res.to_json
 end
