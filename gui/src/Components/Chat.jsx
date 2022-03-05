@@ -29,13 +29,10 @@ class Chat extends Component {
     }
 
     handleSubmit(e){
-        e.preventDefault();
-        console.log("send: " + this.state.message);
-
-        let team_name = "jam"
         let message = this.state.message.replaceAll(' ', '_');
 
-        API.get("/send_dm/" + team_name + "." + this.state.current_user + "." + message)
+
+        API.get("/send_dm/" + this.props.team + "." + this.state.current_user + "." + message)
         .then(response => {
             if(response.ok){
                 this.setState({message: ""})
@@ -46,7 +43,7 @@ class Chat extends Component {
     }
 
     async requestPosts(){
-       await API.get('/list_all_dms')
+       await API.get('/list_dms/' + this.props.team)
         .then(response => {this.setState({
             messages: response.data, 
             loading:false
