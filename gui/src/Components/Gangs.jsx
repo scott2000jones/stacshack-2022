@@ -3,9 +3,15 @@ import Card from 'react-bootstrap/Card';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import API from '../API';
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
+import Container from 'react-bootstrap/Container';
+import { Link } from "react-router-dom";
+import Gang from './Gang';
 
 
-class Contacts extends Component {
+
+class Gangs extends Component {
     state = {
         showModal: false,
         gangs: [],
@@ -63,22 +69,28 @@ class Contacts extends Component {
     buttonPersonAdd() {
 
         return this.state.people.map(data2 => {
-            return <div><Button key={data2.name} variant="primary" onClick= {()=>this.addTeam(data2.name)} >{data2.name} </Button><br></br></div>
+            return <div><Button className="mt-2" key={data2.name} variant="outline-primary" onClick= {()=>this.addTeam(data2.name)} >{data2.name} </Button><br></br></div>
         })
     }
 
     render() {
-        return this.state.gangs.map(data => {
-                return (
-                    <div>
-                        <Card key={data.team_name} style={{ width: '18rem' }} className='mt-4 border-danger' shadow={4}>
+        return(
+            <Container fluid className="d-flex justify-content-md-center">
+                {this.state.gangs.map(data => (
+                    <Col lg='auto'>
+                        <Card key={data.team_name} style={{ width: '18rem' }} className='mt-4 m-2 border-danger' shadow={4}>
                             <Card.Body>
                                 <Card.Title> {data.team_name}</Card.Title>
                                 <Card.Text>
                                     
                                 </Card.Text>
-                                <Button variant="primary">View Gang</Button>
-                                <Button id={this.index} onClick={() => this.showModal(data.team_name)} variant="primary">Add People to Gang</Button>
+                                <Link to={"/gang/" + data.team_name}>
+                                    <Button className="mt-2" variant="primary">
+                                        <span>View Gang</span>
+                                    </Button>
+                                </Link>
+
+                                <Button className="mt-2" id={this.index} onClick={() => this.showModal(data.team_name)} variant="primary">Add People to Gang</Button>
                             </Card.Body>
 
                             <Modal show={this.state.showModal}>
@@ -96,12 +108,13 @@ class Contacts extends Component {
                                 </Modal.Footer>
                             </Modal>
                         </Card>
-                    </div>
-                )
-            })
+                    </Col>
+                ))}
+            </Container>
+        )
     }
 
 
 }
 
-export default Contacts;
+export default Gangs;

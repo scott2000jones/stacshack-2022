@@ -18,18 +18,15 @@ class Navigation extends Component {
                     src={logo}
                     width="70"
                     height="70"
-                    className="d-inline-block align-center m-2"
+                    className="d-inline-block align-center m-2 "
                   />{" "}
                 </Navbar.Brand>
 
                 <Navbar.Toggle aria-controls="basic-navbar-nav" />
             <Navbar.Collapse id="basic-navbar-nav">
             <Nav className="mr-auto">
-              <Nav.Link as={Link} to="/home">
-                Home
-              </Nav.Link>
-              <Nav.Link as={Link} to="/contacts">
-                Contacts
+              <Nav.Link as={Link} to="/gangs">
+                Gangs
               </Nav.Link>
             </Nav>
             </Navbar.Collapse>
