@@ -14,12 +14,12 @@ class Gang extends Component {
         return (
             <Card>
                 <Card.Body>
-                    <Container className="d-flex">
-                        <Row>
+                    <Container >
+                        <Row className="d-flex xs=12">
                         <Col className="flex-left xs-6">
                              <Card.Title>Gang: {this.state.id}</Card.Title>                       
                         </Col>
-                        <Col className="xs-6">
+                        <Col className="flex-right xs-6">
                             <Button variant="primary"><span><Telephone/> Call Gang</span></Button>
                         </Col>
                         </Row>

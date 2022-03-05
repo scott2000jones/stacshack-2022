@@ -14,7 +14,7 @@ function App() {
   return (
     <Router>
       <Route component={Navigation}/>
-    <div className="App h-100">
+    <div className="App h-100" style={{ "background-color": "#66090D" }}>
   
         {/* <Route component={HeaderBar}/> */}
         <div className="container-md">

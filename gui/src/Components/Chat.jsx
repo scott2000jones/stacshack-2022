@@ -4,6 +4,7 @@ import API from '../API';
 import Card from 'react-bootstrap/Card';
 import Alert from 'react-bootstrap/Alert';
 import Toast from 'react-bootstrap/Toast';
+import Form from 'react-bootstrap/Form';
 import timeSince from '../timeSince';
 
 
@@ -16,7 +17,7 @@ class Chat extends Component {
     }
 
     async requestPosts(){
-       await API.get('/list_dms')
+       await API.get('/list_all_dms')
         .then(response => {this.setState({
             messages: response.data, 
             loading:false
@@ -30,8 +31,8 @@ class Chat extends Component {
     render() { 
         return (
             <Card>
-                
                 {this.state.loading ? <h1>Loading</h1> :
+
                 this.state.messages.map(msg =>{
                     return(
                        <Toast>
@@ -44,8 +45,6 @@ class Chat extends Component {
                        </Toast>
                     );
                 })
-
-                
             }
             {this.state.error != null ? <Alert>Error: {this.state.error}</Alert> : <p></p>} 
             
