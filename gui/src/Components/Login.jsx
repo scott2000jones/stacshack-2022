@@ -3,6 +3,7 @@ import 'bootstrap/dist/css/bootstrap.css';
 import {login as apiLogin} from "../lib/api";
 import {Button, Card, FormControl, FormGroup} from "react-bootstrap";
 import Form from "react-bootstrap/Form";
+import {Link} from "react-router-dom"
 
 class Login extends Component {
 
@@ -22,8 +23,7 @@ class Login extends Component {
         })
     }
 
-    async login(e) {
-        e.preventDefault()
+    async login() {
         const res = await apiLogin(this.state.name, this.state.password)
         if (res === "TRUE") {
             this.props.updateAuth(this.state.name)
@@ -47,9 +47,9 @@ class Login extends Component {
                             <FormControl type="password" placeholder="Enter password" value={this.state.password} onChange={this.handleChange("password")} />
                         </FormGroup>
                         <Button className= "mt-2" type="submit" variant="primary">Sign In</Button>
-                        <p className="forgot-password text-right">
-                            Not registered? <a href="#">Sign Up!</a>
-                        </p>
+                        <Link to={"/register"}>
+                            <span>Not registered? Sign Up!</span>
+                        </Link>
                     </Form>
                 </Card.Body>
             </Card>
