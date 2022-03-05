@@ -12,6 +12,10 @@ class Welcome extends Component {
             <Card.Body>
                 <Card.Title>Hello {this.props.auth?.name || "World"}</Card.Title>
                 <Button variant="primary">Click Me</Button>
+
+                <Card>
+                    
+                </Card>
             </Card.Body>
         </Card>
         );
