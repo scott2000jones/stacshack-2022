@@ -35,7 +35,7 @@ class Login extends Component {
     render() {
         return (
             <Card>
-                <Card.Body style={{background: "#F6CFB2"}}>
+                <Card.Body>
                     <Card.Title>Sign In</Card.Title>
                     <Form className='mt-5 border-secondary' onSubmit={this.login}>
                         <FormGroup className="mt-2">

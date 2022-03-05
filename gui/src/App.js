@@ -50,8 +50,8 @@ class App extends Component {
   return (
     <Router>
       <Route component={Navigation}/>
-      <div className="App h-100" style={{ "background-color": "#66090D" }}>
-        <div className="App h-100">
+      <div className="App" style={{ "background-color": "#66090D" }}>
+        <div className="App">
         {/* <Route component={HeaderBar}/> */}
         <div className="container-md">
           <Switch>
