@@ -14,16 +14,16 @@ import React, {Component} from "react";
 class App extends Component {
 
     constructor() {
-    super();
-    const persistedAuth = localStorage.getItem("auth");
+      super();
+      const persistedAuth = localStorage.getItem("auth");
 
-    this.state = {
-      auth: {
-        loggedIn: !!persistedAuth,
-        name: persistedAuth != 'null' ? persistedAuth:  undefined,
+      this.state = {
+        auth: {
+          loggedIn: !!persistedAuth,
+          name: persistedAuth != 'null' ? persistedAuth:  undefined,
+        }
       }
-    }
-    this.updateAuth = this.updateAuth.bind(this);
+      this.updateAuth = this.updateAuth.bind(this);
   }
 
   updateAuth(name) {
