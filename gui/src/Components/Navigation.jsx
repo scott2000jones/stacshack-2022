@@ -7,7 +7,22 @@ import logo from "../images/logo.png";
 
 
 class Navigation extends Component {
-    state = {  } 
+
+
+    logoutButton() {
+        if (localStorage.getItem("auth") == null || localStorage.getItem("auth") == "null") {
+            return (
+                <Nav.Link as={Link} to="/login">
+                    Log In
+                </Nav.Link>
+            )
+        }
+        return (
+            <Nav.Link as={Link} to="/login" onClick={() => localStorage.setItem("auth", null)}>
+                Logout as {localStorage.getItem("auth")}
+            </Nav.Link>
+        )
+    }
 
     render() { 
         return (
@@ -28,6 +43,8 @@ class Navigation extends Component {
               <Nav.Link as={Link} to="/gangs">
                 Gangs
               </Nav.Link>
+                {this.logoutButton()}
+
             </Nav>
             </Navbar.Collapse>
             </Navbar>
