@@ -106,6 +106,16 @@ get "/is_user_in_team/*.*" do |user_name,team_name|
     res
 end
 
+get "/teams_for_user/*" do |user|
+    res = Array.new
+    DB[:team_user_lookup].each do |item|
+        if item[:user_name] == user then
+            res.append(item[:team_name])
+        end
+    end
+    res.to_json
+end
+
 get "/delete_all_teams" do
     DB.run "DELETE FROM teams"
     "Ok!\n"
