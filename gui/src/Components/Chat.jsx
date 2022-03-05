@@ -5,15 +5,44 @@ import Card from 'react-bootstrap/Card';
 import Alert from 'react-bootstrap/Alert';
 import Toast from 'react-bootstrap/Toast';
 import Form from 'react-bootstrap/Form';
+import Button from 'react-bootstrap/Button';
+import InputGroup from 'react-bootstrap/InputGroup';
 import timeSince from '../timeSince';
 
 
 class Chat extends Component {
-    state = { messages:[], loading: true, error: null } 
+    state = { messages:[], current_user: "scott", loading: true, error: null, message: "" } 
 
     componentDidMount(){
         this.requestPosts();
 
+    }
+
+    handleChange(event) {
+        const target = event.target;
+        const value = target.value;
+        const name = target.name;
+        this.setState({
+            [name]: value,
+            errors: []
+        });
+    }
+
+    handleSubmit(e){
+        e.preventDefault();
+        console.log("send: " + this.state.message);
+
+        let team_name = "jam"
+        let message = this.state.message.replaceAll(' ', '_');
+
+        API.get("/send_dm/" + team_name + "." + this.state.current_user + "." + message)
+        .then(response => {
+            if(response.ok){
+                this.setState({message: ""})
+            }
+            
+        })
+        .catch(err => this.setState({error: err.response}));
     }
 
     async requestPosts(){
@@ -46,6 +75,19 @@ class Chat extends Component {
                     );
                 })
             }
+            <Form onSubmit={this.handleSubmit.bind(this)}>
+                <InputGroup>
+                <Form.Control 
+                    type="input" 
+                    name="message"
+                    value={this.state.message}
+                    placeholder="type new message here..."
+                    onChange={this.handleChange.bind(this)}>
+                </Form.Control>
+                <Button type="submit">Send</Button>
+                </InputGroup>
+                
+            </Form>
             {this.state.error != null ? <Alert>Error: {this.state.error}</Alert> : <p></p>} 
             
             </Card>
