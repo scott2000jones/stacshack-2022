@@ -3,6 +3,8 @@ import {MessageList, MessageBox} from 'react-chat-elements';
 import API from '../API';
 import Card from 'react-bootstrap/Card';
 import Alert from 'react-bootstrap/Alert';
+import Toast from 'react-bootstrap/Toast';
+import timeSince from '../timeSince';
 
 
 class Chat extends Component {
@@ -10,6 +12,7 @@ class Chat extends Component {
 
     componentDidMount(){
         this.requestPosts();
+
     }
 
     async requestPosts(){
@@ -31,16 +34,14 @@ class Chat extends Component {
                 {this.state.loading ? <h1>Loading</h1> :
                 this.state.messages.map(msg =>{
                     return(
-                        <MessageBox
-                            key={msg.timestamp}
-                            position={'left'}
-                            title={msg.sent_by}
-                            text={msg.content}
-                            type={'text'}
-
-                        >
-                            
-                        </MessageBox>
+                       <Toast>
+                        <Toast.Header closeButton={false}>
+                            {/* <img src="holder.js/20x20?text=%20" className="rounded me-2" alt="" /> */}
+                            <strong className="me-auto">{msg.sent_by}</strong>
+                            <small>{timeSince(msg.timestamp)} ago</small>
+                        </Toast.Header>
+                        <Toast.Body>{msg.content}</Toast.Body>
+                       </Toast>
                     );
                 })
 
