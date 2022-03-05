@@ -11,6 +11,13 @@ export async function login(name, password){
     }
 
     const res = await instance.post("login",qs.stringify(data));
-    console.dir(res)
+    return res.data;
+}
 
+export async function register(firstName, lastName, username, email, password){
+    const data = {
+        firstName, lastName, email, password
+    }
+    const res = await instance.post("register",qs.stringify(data));
+    return res.data;
 }

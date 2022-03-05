@@ -1,9 +1,37 @@
 import React, { Component } from 'react';
-import Card from 'react-bootstrap/Card';
-import Alert from 'react-bootstrap/Alert';
-import Button from 'react-bootstrap/Button';
+import {register as apiRegister} from "../lib/api";
 
-class Welcome extends Component {
+class Register extends Component {
+
+    constructor() {
+        super();
+        this.state = {
+            firstName: "",
+            lastName: "",
+            username: "",
+            email: "",
+            password: "",
+        }
+        this.handleChange = this.handleChange.bind(this);
+        this.register = this.register.bind(this);
+    }
+
+    handleChange = key => event => {
+        this.setState({
+            [key]: event.target.value
+        })
+    }
+
+    async register(e) {
+        e.preventDefault()
+        const res = await apiRegister(this.state.firstName, this.state.lastName, this.state.username, this.state.email, this.state.password)
+        if (res === "TRUE") {
+            this.props.updateAuth(this.state.name)
+        } else {
+            this.props.updateAuth();
+        }
+    }
+
     state = {  }
     render() {
         return (
@@ -34,4 +62,4 @@ class Welcome extends Component {
     }
 }
 
-export default Welcome;
+export default Register;
