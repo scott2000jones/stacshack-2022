@@ -11,7 +11,7 @@ import timeSince from '../timeSince';
 
 
 class Chat extends Component {
-    state = { messages:[], current_user: "scott", loading: true, error: null, message: "" } 
+    state = { messages:[], current_user: localStorage.getItem("auth"), loading: true, error: null, message: "" } 
 
     componentDidMount(){
         this.requestPosts();
@@ -61,14 +61,25 @@ class Chat extends Component {
 
                 this.state.messages.map(msg =>{
                     return(
-                       <Toast>
-                        <Toast.Header closeButton={false}>
-                            {/* <img src="holder.js/20x20?text=%20" className="rounded me-2" alt="" /> */}
-                            <strong className="me-auto">{msg.sent_by}</strong>
-                            <small>{timeSince(msg.timestamp)} ago</small>
-                        </Toast.Header>
-                        <Toast.Body>{msg.content}</Toast.Body>
-                       </Toast>
+                        <div className="d-flex">
+                        {msg.sent_by == this.state.current_user ?  <Toast>
+                            <Toast.Header closeButton={false} style={{background:"#85040E"}}className="flex-right">
+                                {/* <img src="holder.js/20x20?text=%20" className="rounded me-2" alt="" /> */}
+                                <strong className="me-auto">ME</strong>
+                                <small>{timeSince(msg.timestamp)} ago</small>
+                            </Toast.Header>
+                            <Toast.Body>{msg.content}</Toast.Body>
+                           </Toast> :
+                            <Toast>
+                                <Toast.Header closeButton={false}>
+                                    {/* <img src="holder.js/20x20?text=%20" className="rounded me-2" alt="" /> */}
+                                    <strong className="me-auto">{msg.sent_by}</strong>
+                                    <small>{timeSince(msg.timestamp)} ago</small>
+                                </Toast.Header>
+                                <Toast.Body>{msg.content}</Toast.Body>
+                            </Toast>
+                        }
+                        </div>
                     );
                 })
             }

@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import {register as apiRegister} from "../lib/api";
 import Form from 'react-bootstrap/Form'
 import {FormControl, FormGroup, Button, Card} from "react-bootstrap";
+import {Link} from "react-router-dom"
 
 class Register extends Component {
 
@@ -21,8 +22,7 @@ class Register extends Component {
         })
     }
 
-    async register(e) {
-        e.preventDefault()
+    async register() {
         const res = await apiRegister(this.state.name, this.state.password)
     }
 
@@ -31,7 +31,7 @@ class Register extends Component {
     render() {
         return (
             <Card>
-                <Card.Body style={{background: "#F6CFB2"}}>
+                <Card.Body>
                     <Card.Title>Sign Up</Card.Title>
                     <Form className='mt-5 border-secondary' onSubmit={this.register}>
                         <FormGroup className="mt-2">
@@ -43,9 +43,9 @@ class Register extends Component {
                             <FormControl type="password" placeholder="Enter password" value={this.state.password} onChange={this.handleChange("password")} />
                         </FormGroup>
                         <Button className= "mt-2" type="submit" variant="primary">Sign Up</Button>
-                        <p className="forgot-password text-right">
-                            Already registered <a href="#">sign in?</a>
-                        </p>
+                        <Link to={"/login"}>
+                            <span>Already registered? Sign In!</span>
+                        </Link>
                     </Form>
                 </Card.Body>
             </Card>

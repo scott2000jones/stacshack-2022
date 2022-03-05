@@ -28,7 +28,7 @@ class Gangs extends Component {
     }
 
     async requestTeams() {
-        await API.get('/list_teams')
+        await API.get('/teams_for_user/' + localStorage.getItem("auth"))
             .then(response => {
                 this.setState({
                     gangs: response.data
@@ -78,19 +78,19 @@ class Gangs extends Component {
             <Container fluid className="d-flex justify-content-md-center">
                 {this.state.gangs.map(data => (
                     <Col lg='auto'>
-                        <Card key={data.team_name} style={{ width: '18rem' }} className='mt-4 m-2 border-danger' shadow={4}>
+                        <Card key={data} style={{ width: '18rem' }} className='mt-4 m-2 border-danger' shadow={4}>
                             <Card.Body>
-                                <Card.Title> {data.team_name}</Card.Title>
+                                <Card.Title> {data}</Card.Title>
                                 <Card.Text>
                                     
                                 </Card.Text>
-                                <Link to={"/gang/" + data.team_name}>
+                                <Link to={"/gang/" + data}>
                                     <Button className="mt-2" variant="primary">
                                         <span>View Gang</span>
                                     </Button>
                                 </Link>
 
-                                <Button className="mt-2" id={this.index} onClick={() => this.showModal(data.team_name)} variant="primary">Add People to Gang</Button>
+                                <Button className="mt-2" id={this.index} onClick={() => this.showModal(data)} variant="primary">Add People to Gang</Button>
                             </Card.Body>
 
                             <Modal show={this.state.showModal}>
