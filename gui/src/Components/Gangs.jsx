@@ -87,25 +87,34 @@ class Gangs extends Component {
     }
 
     handleSubmit(e){
+        // e.preventDefault();
         let gang = this.state.gang.replaceAll(' ', '_');
 
-
-        API.get("/create_team/"+ gang+"."+localStorage.getItem("auth"))
+        API.get("/create_team/"+ gang)
         .then(response => {
             if(response.ok){
-                this.setState({message: ""})
+                this.setState({message: "", team:gang});
             }
             
         })
         .catch(err => this.setState({error: err.response}));
+
+        API.get("/add_user_to_team/" + gang + "." + localStorage.getItem("auth") )
+            .then(response => {
+                if(response.ok){
+                    this.setState({showModal: false});
+                }
+                
+            })
+            .catch(err => this.setState({error: err.response}));
+        
+
     }
     
     render() {
         return (
             <Card>
                 <Card.Body>
-
-                    <Form className='mt-2 border-secondary' onSubmit={this.register}>
                         <Row className="justify-content-center">
                             <Card.Subtitle><h4>Create New Gang</h4></Card.Subtitle>
                             <Col xs={7}>
@@ -123,10 +132,9 @@ class Gangs extends Component {
                                 </Form>
                             </Col>
                         </Row>
-                    </Form>
-
-                    {this.state.gangs.map(data => (
-                        <Col lg='auto'>
+                        <Row className='d-flex justify-content-center'>
+                             {this.state.gangs.map(data => (
+                        <Col xs='auto'>
                             <Card key={data} style={{width: '18rem'}} className='mt-4 m-2 border-danger' shadow={4}>
                                 <Card.Body>
                                     <Card.Title> {data}</Card.Title>
@@ -160,6 +168,9 @@ class Gangs extends Component {
                             </Card>
                         </Col>
                     ))}
+                        </Row>
+
+                   
                 </Card.Body>
             </Card>
         );

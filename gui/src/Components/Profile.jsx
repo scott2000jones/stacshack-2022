@@ -36,7 +36,7 @@ class Profile extends Component {
                 <Card.Body>
                     <Card.Title>Username: {this.props.auth?.name} </Card.Title>
                     <ListGroup as="ul">
-                        <ListGroup.Item as="li" active>
+                        <ListGroup.Item as="li">
                             General
                         </ListGroup.Item>
                         <ListGroup.Item as="li">Privacy</ListGroup.Item>

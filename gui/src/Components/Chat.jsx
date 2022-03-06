@@ -15,7 +15,16 @@ class Chat extends Component {
 
     componentDidMount(){
         this.props.refresh();
+        this.scrollToBottom();
     }
+
+    componentDidUpdate(){
+        this.scrollToBottom();
+    }
+
+    scrollToBottom = () => {
+        this.messagesEnd.scrollIntoView({ behavior: "smooth" });
+      }
 
     handleChange(event) {
         const target = event.target;
@@ -39,7 +48,8 @@ class Chat extends Component {
         })
         .catch(err => this.setState({error: err.response}));
         this.props.refresh();
-        
+        this.setState({message: ""})
+
     }
 
     render() { 
@@ -51,7 +61,7 @@ class Chat extends Component {
                     {this.props.loading ? <h1>Loading</h1> :
                 <Container>
                     <Row>
-                        {this.props.messages.map(msg =>(
+                        {this.props.messages.reverse().map(msg =>(
                             <div className="d-flex">
                             {msg.sent_by == this.state.current_user ?  
                             <>
@@ -84,6 +94,9 @@ class Chat extends Component {
                             </div>
                         )
                     )}
+                    <div style={{ float:"left", clear: "both" }}
+             ref={(el) => { this.messagesEnd = el; }}>
+        </div>
                     </Row>
                     </Container>
             }
