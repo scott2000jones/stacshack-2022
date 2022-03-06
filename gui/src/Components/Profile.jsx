@@ -59,7 +59,7 @@ class Profile extends Component {
                     <Row className= "justify-content-center">
                         <Col xs={7}>
                     <ListGroup as="ul" className="mt-2">
-                        <ListGroup.Item as="li" active>
+                        <ListGroup.Item as="li">
                             <h3>General</h3>
                         </ListGroup.Item>
                         <ListGroup.Item action onClick={alertClicked}>

@@ -54,7 +54,7 @@ render() {
         {/* <Route component={HeaderBar}/> */}
           <Switch>
             <Route exact path="/">
-              <Gangs />
+              {(localStorage.getItem("auth") == null || localStorage.getItem("auth") == "null") ? <Login/> : <Gangs />}
             </Route>
             <Route path="/login">
               <Login auth={this.state.auth} updateAuth={this.updateAuth} />

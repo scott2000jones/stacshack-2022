@@ -12,10 +12,11 @@ import timeSince from '../timeSince';
 
 class Chat extends Component {
     state = { messages:[], current_user: localStorage.getItem("auth"), loading: true, error: null, message: "" } 
+    
 
     componentDidMount(){
         this.props.refresh();
-        this.scrollToBottom();
+        // this.scrollToBottom();
     }
 
     componentDidUpdate(){
@@ -95,8 +96,8 @@ class Chat extends Component {
                         )
                     )}
                     <div style={{ float:"left", clear: "both" }}
-             ref={(el) => { this.messagesEnd = el; }}>
-        </div>
+                        ref={(el) => { this.messagesEnd = el; }}>
+                    </div>
                     </Row>
                     </Container>
             }

@@ -3,7 +3,7 @@ import 'bootstrap/dist/css/bootstrap.css';
 import {login as apiLogin} from "../lib/api";
 import {Button, Card, FormControl, FormGroup} from "react-bootstrap";
 import Form from "react-bootstrap/Form";
-import {Link} from "react-router-dom"
+import {Link, withRouter} from "react-router-dom"
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import API from '../API';
@@ -40,12 +40,13 @@ class Login extends Component {
             .then(response => {
                 console.log(response)
                 localStorage.setItem("auth", this.state.name)
-
+                this.props.history.push('/gangs');
             },
                 err => {
                     console.log(err)
                     this.setState({ error: err.response })
                 })
+        
     }
 
     render() {
@@ -107,4 +108,4 @@ class Login extends Component {
     }
 }
  
-export default Login;
+export default withRouter(Login);
