@@ -50,10 +50,8 @@ render() {
   return (
     <Router>
       <Route component={Navigation}/>
-      <div className="App">
-        <div className="App">
+      <div className="App m-4">
         {/* <Route component={HeaderBar}/> */}
-        <div className="container-md">
           <Switch>
             <Route exact path="/">
               <Gangs />
@@ -70,8 +68,6 @@ render() {
             </Route>
             {/*<Route path="/webrtc_test_page" component={Webrtc_test_page}/>*/}
           </Switch>
-        </div>
-        </div>
         </div>
     </Router>
   );

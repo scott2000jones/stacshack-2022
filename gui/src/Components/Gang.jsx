@@ -176,22 +176,23 @@ class Gang extends Component {
 
     render() { 
         const opts = {
-            height: '390',
-            width: '640',
+            height: '500',
+            width: '750',
             playerVars: {
               // https://developers.google.com/youtube/player_parameters
               autoplay: 1,
             },
           };
         return (
-            <Card>
+            <Card className="w-100">
                 <Card.Body>
-                    <Container >
-                        <Row className="d-flex xs=12">
-                        <Col className="flex-left xs-6">
-                             <Card.Title>Gang: {this.state.id}</Card.Title>                       
+                    <Container className='w-100 m-2' >
+                        <Row className="d-flex w-100 xs=12">
+                        <Col className="flex-left" xs={10}>
+                             <Card.Title style={{"font-size":"30px"}}>Gang: {this.state.id}</Card.Title>                       
                         </Col>
-                        <Col className="flex-right xs-6">
+                        {/* <Col ></Col> */}
+                        <Col className="flex-right" xs={2}>
                             <Button variant="primary" onClick={() => this.notify_summon()}><span><Telephone/> Summon Gang</span></Button>
                         </Col>
                         </Row>
@@ -199,24 +200,32 @@ class Gang extends Component {
                    
                     <Card className="mt-3">
                         <Card.Body>
-                            <YouTube ref={this.ytREF} className="my-3" videoId={this.state.vid} opts={opts} onReady={this._onReady.bind(this)} />
-                            <Button className="my-3" onClick={() => this.notify_play()}>PLAY</Button>
-                            <Button type="submit" onClick={() => this.notify_pause()}>PAUSE</Button>
-                            <Form onSubmit={this.handleSubmit.bind(this)}>
-                                <InputGroup>
-                                <Form.Control 
-                                    type="input" 
-                                    name="vid_message"
-                                    value={this.state.vid_message}
-                                    placeholder="enter new video url "
-                                    onChange={this.handleChange.bind(this)}>
-                                </Form.Control>
-                                <Button type="submit">Send</Button>
-                                </InputGroup>
-                            </Form>
+                            <Row>
+                                <Col xs={7}>
+                                <Form onSubmit={this.handleSubmit.bind(this)}>
+                                            <InputGroup>
+                                            <Form.Control 
+                                                type="input" 
+                                                name="vid_message"
+                                                value={this.state.vid_message}
+                                                placeholder="enter new video url "
+                                                onChange={this.handleChange.bind(this)}>
+                                            </Form.Control>
+                                            <Button type="submit">Send</Button>
+                                            </InputGroup>
+                                        </Form>
+                                    <YouTube ref={this.ytREF} className="m-3" videoId={this.state.vid} opts={opts} onReady={this._onReady.bind(this)} />
+                                        <Button className="m-3" onClick={() => this.notify_play()}>PLAY</Button>
+                                        <Button className="m-3" type="submit" onClick={() => this.notify_pause()}>PAUSE</Button>
+                                       
+                                </Col>
+                                <Col xs={5}>
+                                    <Chat team={this.state.id} messages={this.state.messages} refresh={this.requestPosts} loading={this.state.chat_loading}></Chat>
+                                </Col>
+                            </Row>
+                           
                             
-                            <Card.Title>Messages</Card.Title>
-                            <Chat team={this.state.id} messages={this.state.messages} refresh={this.requestPosts} loading={this.state.chat_loading}></Chat>
+                           
                         </Card.Body>
                     </Card>
                 </Card.Body>
