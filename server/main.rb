@@ -58,8 +58,9 @@ get "/logout/*" do |name|
     "Ok!\n"
 end
 
-get "/create_team/*" do |team_name|
+get "/create_team/*.*" do |team_name, user_name|
     DB.run "INSERT INTO teams (team_name) VALUES (\"" + team_name + "\")"
+    DB.run "INSERT INTO team_user_lookup (team_name, user_name) VALUES (\"" + team_name + "\", \"" + user_name + "\")"
     "Ok!\n"
 end
 

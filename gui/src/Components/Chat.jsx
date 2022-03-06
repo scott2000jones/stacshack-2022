@@ -44,8 +44,10 @@ class Chat extends Component {
 
     render() { 
         return (
-            <Card className="w-100">
-                <Card.Body>
+            <Card className="w-100" style={{"height":"600px"}}>
+                <Card.Body style={{"overflow-y":"scroll"}}>
+                    <Card.Title>Messages</Card.Title>
+                    {this.state.error != null ? <Alert>Error: {this.state.error}</Alert> : <p></p>} 
                     {this.props.loading ? <h1>Loading</h1> :
                 <Container>
                     <Row>
@@ -100,7 +102,7 @@ class Chat extends Component {
                 </InputGroup>
                 
             </Form>
-            {this.state.error != null ? <Alert>Error: {this.state.error}</Alert> : <p></p>} 
+          
             
             </Card>
            

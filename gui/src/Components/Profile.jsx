@@ -3,8 +3,13 @@ import Card from 'react-bootstrap/Card';
 import Alert from 'react-bootstrap/Alert';
 import Button from 'react-bootstrap/Button';
 import ListGroup from 'react-bootstrap/ListGroup'
+
 import Col from "react-bootstrap/Col";
 import Row from "react-bootstrap/Row";
+
+import Nav from "react-bootstrap/Nav";
+import {Link, Route} from "react-router-dom";
+
 
 function alertClicked() {
     alert('Settings Coming Soon');
@@ -26,6 +31,26 @@ function alertClicked() {
 
 class Profile extends Component {
     state = {  }
+
+    logoutButton() {
+        if (localStorage.getItem("auth") == null || localStorage.getItem("auth") == "null") {
+            return (
+                <Link as={Link} to="/login">
+                    <Button className="m-2" variant="primary">
+                        Log In
+                    </Button>
+                </Link>
+            )
+        }
+        return (
+            <Link as={Link} to="/login" onClick={() => localStorage.setItem("auth", null)}>
+                <Button className="m-2" variant="primary">
+                    Logout ({localStorage.getItem("auth")})
+                </Button>
+            </Link>
+        )
+    }
+
     render() {
         return (
             <Card className='mt-4 border-secondary'>
@@ -50,6 +75,8 @@ class Profile extends Component {
                         </Col>
                     </Row>
                     <Button className="mt-4" variant="primary">Log Out</Button>
+                    
+                    {this.logoutButton()}
                     <Card>
                     </Card>
                 </Card.Body>
