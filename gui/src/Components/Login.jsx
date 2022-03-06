@@ -6,6 +6,7 @@ import Form from "react-bootstrap/Form";
 import {Link} from "react-router-dom"
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
+import API from '../API';
 
 class Login extends Component {
 
@@ -25,14 +26,24 @@ class Login extends Component {
         })
     }
 
+    componentDidMount() {
+        console.log("mount")
+        
+    }
+
+
     async login(e) {
         e.preventDefault()
-        const res = await apiLogin(this.state.name, this.state.password)
-        if (res === "TRUE") {
-            this.props.updateAuth(this.state.name)
-        } else {
-            this.props.updateAuth();
-        }
+        console.log("submit login")
+        await API.get('/login/' + this.state.name + "." + this.state.password)
+            .then(response => {
+                console.log(response)
+                localStorage.setItem("auth", this.state.name)
+            },
+                err => {
+                    console.log(err)
+                    this.setState({ error: err.response })
+                })
     }
 
     render() {

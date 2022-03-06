@@ -105,7 +105,7 @@ async def offer(request):
     pc = RTCPeerConnection()
     pc_id = f"PeerConnection({uuid.uuid4()})"
     pcs.add(pc)
-
+    index = len(pcs)
     def log_info(msg, *args):
         logger.info(pc_id + " " + msg, *args)
 
@@ -143,7 +143,14 @@ async def offer(request):
             local_video = VideoTransformTrack(
                 track, transform=params["video_transform"]
             )
-            pc.addTrack(local_video)
+            
+            for i in range(len(pcs)):
+                local_video.label = str(i)
+                print(">>>>>>>>>>>>>>>>>>>>>>>>>>>>...")
+                print(local_video.label)
+                list(pcs)[i].addTrack(local_video)
+            # pc.addTrack(local_video)
+        
 
         @track.on("ended")
         async def on_ended():

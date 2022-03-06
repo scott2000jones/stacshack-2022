@@ -8,9 +8,9 @@ configure do
 end
 
 DB = Sequel.sqlite('database.db')
-# DB.run "CREATE TABLE users (name VARCHAR(255) NOT NULL UNIQUE PRIMARY KEY, password VARCHAR(255) NOT NULL)"
-# DB.run "CREATE TABLE teams (team_name VARCHAR(255) NOT NULL UNIQUE PRIMARY KEY)"
-# DB.run "CREATE TABLE team_user_lookup (team_name VARCHAR(255) NOT NULL UNIQUE, user_name VARCHAR(255) NOT NULL UNIQUE, FOREIGN KEY (team_name) REFERENCES teams (team_name), FOREIGN KEY (user_name) REFERENCES users (name))"
+# DB.run "CREATE TABLE users (name VARCHAR(255) NOT NULL PRIMARY KEY, password VARCHAR(255) NOT NULL)"
+# DB.run "CREATE TABLE teams (team_name VARCHAR(255) NOT NULL PRIMARY KEY)"
+# DB.run "CREATE TABLE team_user_lookup (team_name VARCHAR(255) NOT NULL, user_name VARCHAR(255) NOT NULL, FOREIGN KEY (team_name) REFERENCES teams (team_name), FOREIGN KEY (user_name) REFERENCES users (name))"
 # DB.run "CREATE TABLE dms (team_name VARCHAR(255) NOT NULL, sent_by VARCHAR(255) NOT NULL, content VARCHAR(255), timestamp INTEGER, FOREIGN KEY (team_name) REFERENCES teams (team_name), FOREIGN KEY (sent_by) REFERENCES users (name))"
 # DB.run "CREATE TABLE current_logins (user_name VARCHAR(255) NOT NULL, FOREIGN KEY (user_name) REFERENCES users (name))"
 
@@ -122,7 +122,7 @@ get "/delete_all_teams" do
 end
 
 get "/send_dm/*.*.*" do |team_name,sent_by,content|
-    content = content.tr("_"," ")
+    # content = content.tr("_"," ")
     DB.run "INSERT INTO dms (team_name, sent_by, content, timestamp) VALUES (\"" + team_name + "\", \"" + sent_by + "\", \"" + content + "\", " + Time.now.to_i.to_s +  ")"
     "Ok!\n"
 end
