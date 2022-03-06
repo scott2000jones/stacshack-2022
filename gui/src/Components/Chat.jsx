@@ -63,7 +63,7 @@ class Chat extends Component {
                 <Container>
                     <Row>
                         {this.state.messages.map(msg =>(
-                            <div className="d-flex">
+                            <div className="d-flex justify-content-md-center">
                             {msg.sent_by == this.state.current_user ?  
                             <>
                             <Col></Col>
