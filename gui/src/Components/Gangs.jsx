@@ -10,6 +10,8 @@ import { Link } from "react-router-dom";
 import InputGroup from 'react-bootstrap/InputGroup';
 
 import Gang from './Gang';
+import {FormControl, FormGroup} from "react-bootstrap";
+import Row from "react-bootstrap/Row";
 
 
 
@@ -98,60 +100,69 @@ class Gangs extends Component {
         .catch(err => this.setState({error: err.response}));
     }
     render() {
-        return(
-              
-            <Container fluid className="d-flex justify-content-md-center">
-                 <Form onSubmit={this.handleSubmit.bind(this)}>
-                <InputGroup>
-                <Form.Control 
-                    type="input" 
-                    name="gang"
-                    value={this.state.gang}
-                    placeholder="Type new Gang"
-                    onChange={this.handleChange.bind(this)}>
-                </Form.Control>
-                <Button type="submit">Send</Button>
-                </InputGroup>
-                
-            </Form>
-                {this.state.gangs.map(data => (
-                    <Col lg='auto'>
-                        <Card key={data} style={{ width: '18rem' }} className='mt-4 m-2 border-danger' shadow={4}>
-                            <Card.Body>
-                                <Card.Title> {data}</Card.Title>
-                                <Card.Text>
-                                    
-                                </Card.Text>
-                                <Link to={"/gang/" + data}>
-                                    <Button className="mt-2" variant="primary">
-                                        <span>View Gang</span>
-                                    </Button>
-                                </Link>
+        return (
+            <Card>
+                <Card.Body>
 
-                                <Button className="mt-2" id={this.index} onClick={() => this.showModal(data)} variant="primary">Add People to Gang</Button>
-                            </Card.Body>
+                    <Form className='mt-2 border-secondary' onSubmit={this.register}>
+                        <Row className="justify-content-center">
+                            <Card.Subtitle><h4>Create New Gang</h4></Card.Subtitle>
+                            <Col xs={7}>
+                                <Form onSubmit={this.handleSubmit.bind(this)}>
+                                    <InputGroup>
+                                        <Form.Control
+                                            type="input"
+                                            name="gang"
+                                            value={this.state.gang}
+                                            placeholder="Type New Gang Name"
+                                            onChange={this.handleChange.bind(this)}>
+                                        </Form.Control>
+                                        <Button type="submit">Send</Button>
+                                    </InputGroup>
+                                </Form>
+                            </Col>
+                        </Row>
+                    </Form>
 
-                            <Modal show={this.state.showModal}>
-                                <Modal.Header closeButton onClick={() => this.showModal("")}>
-                                    <Modal.Title>Add to Gang</Modal.Title>
-                                </Modal.Header>
+                    {this.state.gangs.map(data => (
+                        <Col lg='auto'>
+                            <Card key={data} style={{width: '18rem'}} className='mt-4 m-2 border-danger' shadow={4}>
+                                <Card.Body>
+                                    <Card.Title> {data}</Card.Title>
+                                    <Card.Text>
 
-                                <Modal.Body>
-                                    {this.buttonPersonAdd()}
-                                </Modal.Body>
-                                <Modal.Footer>
-                                    <Button variant="secondary" onClick={() => this.showModal("")}>
-                                        Close
-                            </Button>
-                                </Modal.Footer>
-                            </Modal>
-                        </Card>
-                    </Col>
-                ))}
-            </Container>
-        )
+                                    </Card.Text>
+                                    <Link to={"/gang/" + data}>
+                                        <Button className="mt-2" variant="primary">
+                                            <span>View Gang</span>
+                                        </Button>
+                                    </Link>
+
+                                    <Button className="mt-2" id={this.index} onClick={() => this.showModal(data)}
+                                            variant="primary">Add People to Gang</Button>
+                                </Card.Body>
+
+                                <Modal show={this.state.showModal}>
+                                    <Modal.Header closeButton onClick={() => this.showModal("")}>
+                                        <Modal.Title>Add to Gang</Modal.Title>
+                                    </Modal.Header>
+
+                                    <Modal.Body>
+                                        {this.buttonPersonAdd()}
+                                    </Modal.Body>
+                                    <Modal.Footer>
+                                        <Button variant="secondary" onClick={() => this.showModal("")}>
+                                            Close
+                                        </Button>
+                                    </Modal.Footer>
+                                </Modal>
+                            </Card>
+                        </Col>
+                    ))}
+                </Card.Body>
+            </Card>
+        );
     }
-
 
 }
 

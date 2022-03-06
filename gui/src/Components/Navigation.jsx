@@ -19,7 +19,7 @@ class Navigation extends Component {
         }
         return (
             <Nav.Link as={Link} to="/login" onClick={() => localStorage.setItem("auth", null)}>
-                Logout as {localStorage.getItem("auth")}
+                Logout ({localStorage.getItem("auth")})
             </Nav.Link>
         )
     }
@@ -28,7 +28,9 @@ class Navigation extends Component {
         let profile = <></>
         if (localStorage.getItem("auth") != null && localStorage.getItem("auth") != "null") profile = (
             <Nav.Link as={Link} to="/profile">
-                Profile
+                <h1>Profile
+                </h1>
+
             </Nav.Link>)
         return (
             <Navbar variant="dark" bg="secondary">
@@ -44,17 +46,28 @@ class Navigation extends Component {
                 <Navbar.Toggle aria-controls="basic-navbar-nav" />
             <Navbar.Collapse id="basic-navbar-nav">
             <Nav className="mr-auto">
-              <Nav.Link as={Link} to="/gangs">
-                Gangs
-              </Nav.Link>
-                {this.logoutButton()}
                 {profile}
-
+                <Nav.Link as={Link} to="/gangs">
+                    <h1>
+                Gangs
+                </h1>
+              </Nav.Link>
             </Nav>
+                <Nav className="ml-auto-p2">
+                    <Nav.Item>
+                        <h1>
+                        {this.logoutButton()}
+                        </h1>
+                        </Nav.Item>
+                </Nav>
             </Navbar.Collapse>
             </Navbar>
         );
     }
 }
+
+
+
+
  
 export default Navigation;

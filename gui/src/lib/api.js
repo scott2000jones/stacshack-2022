@@ -11,7 +11,6 @@ export async function login(name, password){
     const data = {
         name, password
     }
-
     const res = await API.get("/login/" + name + "." + password);
     return res.data;
 }
