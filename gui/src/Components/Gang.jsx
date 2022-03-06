@@ -30,7 +30,7 @@ class Gang extends Component {
                     <Card className="mt-3">
                         <Card.Body>
                             <Card.Title>Messages</Card.Title>
-                            <Chat></Chat>
+                            <Chat team={this.state.id}></Chat>
                         </Card.Body>
                     </Card>
                 </Card.Body>

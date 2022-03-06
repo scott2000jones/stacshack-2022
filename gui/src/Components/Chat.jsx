@@ -7,11 +7,12 @@ import Toast from 'react-bootstrap/Toast';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import InputGroup from 'react-bootstrap/InputGroup';
+import { Container, Row, Col } from 'react-bootstrap';
 import timeSince from '../timeSince';
 
 
 class Chat extends Component {
-    state = { messages:[], current_user: "scott", loading: true, error: null, message: "" } 
+    state = { messages:[], current_user: localStorage.getItem("auth"), loading: true, error: null, message: "" } 
 
     componentDidMount(){
         this.requestPosts();
@@ -29,13 +30,10 @@ class Chat extends Component {
     }
 
     handleSubmit(e){
-        e.preventDefault();
-        console.log("send: " + this.state.message);
-
-        let team_name = "jam"
         let message = this.state.message.replaceAll(' ', '_');
 
-        API.get("/send_dm/" + team_name + "." + this.state.current_user + "." + message)
+
+        API.get("/send_dm/" + this.props.team + "." + this.state.current_user + "." + message)
         .then(response => {
             if(response.ok){
                 this.setState({message: ""})
@@ -46,7 +44,7 @@ class Chat extends Component {
     }
 
     async requestPosts(){
-       await API.get('/list_all_dms')
+       await API.get('/list_dms/' + this.props.team)
         .then(response => {this.setState({
             messages: response.data, 
             loading:false
@@ -59,22 +57,49 @@ class Chat extends Component {
 
     render() { 
         return (
-            <Card>
-                {this.state.loading ? <h1>Loading</h1> :
-
-                this.state.messages.map(msg =>{
-                    return(
-                       <Toast>
-                        <Toast.Header closeButton={false}>
-                            {/* <img src="holder.js/20x20?text=%20" className="rounded me-2" alt="" /> */}
-                            <strong className="me-auto">{msg.sent_by}</strong>
-                            <small>{timeSince(msg.timestamp)} ago</small>
-                        </Toast.Header>
-                        <Toast.Body>{msg.content}</Toast.Body>
-                       </Toast>
-                    );
-                })
+            <Card className="w-100">
+                <Card.Body>
+                    {this.state.loading ? <h1>Loading</h1> :
+                <Container>
+                    <Row>
+                        {this.state.messages.map(msg =>(
+                            <div className="d-flex">
+                            {msg.sent_by == this.state.current_user ?  
+                            <>
+                            <Col></Col>
+                            <Col>
+                            <Toast position={'top-end'}>
+                                <Toast.Header closeButton={false} style={{background:"#85040E"}} >
+                                    {/* <img src="holder.js/20x20?text=%20" className="rounded me-2" alt="" /> */}
+                                    <strong className="me-auto">ME</strong>
+                                    <small>{timeSince(msg.timestamp)} ago</small>
+                                </Toast.Header>
+                                <Toast.Body textAlign={'Right'}>{msg.content}</Toast.Body>
+                            </Toast>
+                            </Col>
+                            </> :
+                            <>
+                            <Col>
+                                <Toast>
+                                    <Toast.Header closeButton={false} >
+                                        {/* <img src="holder.js/20x20?text=%20" className="rounded me-2" alt="" /> */}
+                                        <strong className="me-auto">{msg.sent_by}</strong>
+                                        <small>{timeSince(msg.timestamp)} ago</small>
+                                    </Toast.Header>
+                                    <Toast.Body>{msg.content}</Toast.Body>
+                                </Toast>
+                                </Col>
+                                <Col></Col>
+                            </>
+                            }
+                            </div>
+                        )
+                    )}
+                    </Row>
+                    </Container>
             }
+                </Card.Body>
+                
             <Form onSubmit={this.handleSubmit.bind(this)}>
                 <InputGroup>
                 <Form.Control 

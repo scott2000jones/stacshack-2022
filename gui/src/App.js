@@ -1,7 +1,6 @@
 import './App.css';
-import Welcome from "./Components/Welcome";
 import Login from "./Components/Login";
-import Contacts from "./Components/Contacts";
+import Gangs from "./Components/Gangs";
 import Call from "./Components/Call";
 import Navigation from './Components/Navigation';
 import Register from "./Components/Register";
@@ -51,21 +50,18 @@ render() {
   return (
     <Router>
       <Route component={Navigation}/>
-      <div className="App" style={{ "background-color": "#66090D" }}>
+      <div className="App">
         <div className="App">
         {/* <Route component={HeaderBar}/> */}
         <div className="container-md">
           <Switch>
             <Route exact path="/">
-              <Welcome auth={this.state.auth} />
-            </Route>
-            <Route exact path="/home">
-              <Welcome auth={this.state.auth} />
+              <Gangs />
             </Route>
             <Route path="/login">
               <Login auth={this.state.auth} updateAuth={this.updateAuth} />
             </Route>
-            <Route path="/contacts" component={Contacts}/>
+            <Route path="/gangs" component={Gangs}/>
             <Route path="/call" component={Call}/>
             <Route path = "/register" component={Register}/>
             <Route path="/gang/:id" component={Gang}/>
