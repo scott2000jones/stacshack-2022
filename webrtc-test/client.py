@@ -135,9 +135,7 @@ async def offer(request):
     @pc.on("track")
     def on_track(track):
         log_info("Track %s received", track.kind)
-        for i in range(len(pcs)):
-            if i != index:
-                pcs[i].addTrack(local_video)
+
         if track.kind == "audio":
             pc.addTrack(player.audio)
             recorder.addTrack(track)
@@ -145,7 +143,9 @@ async def offer(request):
             local_video = VideoTransformTrack(
                 track, transform=params["video_transform"]
             )
-            pc.addTrack(local_video)
+            for i in range(len(pcs)):
+                list(pcs)[i].addTrack(local_video)
+            # pc.addTrack(local_video)
         
 
         @track.on("ended")
