@@ -143,7 +143,9 @@ async def offer(request):
             local_video = VideoTransformTrack(
                 track, transform=params["video_transform"]
             )
+            
             for i in range(len(pcs)):
+                local_video.label = str(i)
                 list(pcs)[i].addTrack(local_video)
             # pc.addTrack(local_video)
         
