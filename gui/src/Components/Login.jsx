@@ -7,6 +7,7 @@ import {Link} from "react-router-dom"
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import API from '../API';
+import Nav from "react-bootstrap/Nav";
 
 class Login extends Component {
 
@@ -28,8 +29,8 @@ class Login extends Component {
 
     componentDidMount() {
         console.log("mount")
-        
     }
+
 
 
     async login(e) {
@@ -39,6 +40,7 @@ class Login extends Component {
             .then(response => {
                 console.log(response)
                 localStorage.setItem("auth", this.state.name)
+
             },
                 err => {
                     console.log(err)
@@ -62,7 +64,6 @@ class Login extends Component {
                         <FormGroup className="mt-2">
                             <Row className= "justify-content-center">
                                 <Col xs={7}>
-
                                     <FormControl type="password" placeholder="Enter password" value={this.state.password} onChange={this.handleChange("password")} />
                                 </Col>
                             </Row>
