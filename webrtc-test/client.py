@@ -105,7 +105,7 @@ async def offer(request):
     pc = RTCPeerConnection()
     pc_id = f"PeerConnection({uuid.uuid4()})"
     pcs.add(pc)
-
+    index = len(pcs)
     def log_info(msg, *args):
         logger.info(pc_id + " " + msg, *args)
 
@@ -135,7 +135,9 @@ async def offer(request):
     @pc.on("track")
     def on_track(track):
         log_info("Track %s received", track.kind)
-
+        for i in range(len(pcs)):
+            if i != index:
+                pcs[i].addTrack(local_video)
         if track.kind == "audio":
             pc.addTrack(player.audio)
             recorder.addTrack(track)
@@ -144,6 +146,7 @@ async def offer(request):
                 track, transform=params["video_transform"]
             )
             pc.addTrack(local_video)
+        
 
         @track.on("ended")
         async def on_ended():
