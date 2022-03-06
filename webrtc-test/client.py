@@ -146,6 +146,8 @@ async def offer(request):
             
             for i in range(len(pcs)):
                 local_video.label = str(i)
+                print(">>>>>>>>>>>>>>>>>>>>>>>>>>>>...")
+                print(local_video.label)
                 list(pcs)[i].addTrack(local_video)
             # pc.addTrack(local_video)
         
