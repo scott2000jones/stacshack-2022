@@ -9,11 +9,15 @@ const PORT = 8888;
 /*************/
 const fs = require("fs");
 const express = require('express');
-var http = require('http');
-// const https = require("https");
+// var http = require('http');
+const https = require("https");
 const bodyParser = require('body-parser')
 const main = express()
-const server = http.createServer(main)
+const cors = require('cors')
+main.use(cors({
+    origin: "https://saj7.host.cs.st-andrews.ac.uk/webrtc"
+}))
+const server = https.createServer(main)
 
 
 const io  = require('socket.io').listen(server);

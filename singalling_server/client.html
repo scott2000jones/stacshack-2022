@@ -39,7 +39,7 @@
 
             function init() {
                 console.log("Connecting to signaling server");
-                signaling_socket = io(SIGNALING_SERVER);
+                signaling_socket = io.connect(SIGNALING_SERVER,{secure:true});
                 signaling_socket = io();
 
                 signaling_socket.on('connect', function() {

@@ -10,13 +10,11 @@ import InputGroup from 'react-bootstrap/InputGroup';
 import { Container, Row, Col } from 'react-bootstrap';
 import timeSince from '../timeSince';
 
-
 class Chat extends Component {
     state = { messages:[], current_user: localStorage.getItem("auth"), loading: true, error: null, message: "" } 
 
     componentDidMount(){
-        this.requestPosts();
-
+        this.props.refresh();
     }
 
     handleChange(event) {
@@ -30,39 +28,28 @@ class Chat extends Component {
     }
 
     handleSubmit(e){
-        let message = this.state.message.replaceAll(' ', '_');
-
-
+        e.preventDefault()
+        // let message = this.state.message.replaceAll(' ', '_');
+        let message = this.state.message;
         API.get("/send_dm/" + this.props.team + "." + this.state.current_user + "." + message)
         .then(response => {
             if(response.ok){
                 this.setState({message: ""})
             }
-            
         })
         .catch(err => this.setState({error: err.response}));
+        this.props.refresh();
+        
     }
-
-    async requestPosts(){
-       await API.get('/list_dms/' + this.props.team)
-        .then(response => {this.setState({
-            messages: response.data, 
-            loading:false
-        })
-        }, err => {
-            this.setState({error: err.response})
-        })
-    }
-    
 
     render() { 
         return (
             <Card className="w-100">
                 <Card.Body>
-                    {this.state.loading ? <h1>Loading</h1> :
+                    {this.props.loading ? <h1>Loading</h1> :
                 <Container>
                     <Row>
-                        {this.state.messages.map(msg =>(
+                        {this.props.messages.map(msg =>(
                             <div className="d-flex">
                             {msg.sent_by == this.state.current_user ?  
                             <>

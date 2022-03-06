@@ -4,6 +4,7 @@ import {login as apiLogin} from "../lib/api";
 import {Button, Card, FormControl, FormGroup} from "react-bootstrap";
 import Form from "react-bootstrap/Form";
 import {Link} from "react-router-dom"
+import API from '../API';
 
 class Login extends Component {
 
@@ -23,13 +24,24 @@ class Login extends Component {
         })
     }
 
-    async login() {
-        const res = await apiLogin(this.state.name, this.state.password)
-        if (res === "TRUE") {
-            this.props.updateAuth(this.state.name)
-        } else {
-            this.props.updateAuth();
-        }
+    componentDidMount() {
+        console.log("mount")
+        
+    }
+
+
+    async login(e) {
+        e.preventDefault()
+        console.log("submit login")
+        await API.get('/login/' + this.state.name + "." + this.state.password)
+            .then(response => {
+                console.log(response)
+                localStorage.setItem("auth", this.state.name)
+            },
+                err => {
+                    console.log(err)
+                    this.setState({ error: err.response })
+                })
     }
 
     render() {
@@ -37,7 +49,7 @@ class Login extends Component {
             <Card>
                 <Card.Body>
                     <Card.Title>Sign In</Card.Title>
-                    <Form className='mt-5 border-secondary' onSubmit={this.login}>
+                    <Form className='mt-5 border-secondary' onSubmit={(e) => this.login(e)}>
                         <FormGroup className="mt-2">
                             <Form.Label>Username</Form.Label>
                             <FormControl type="text" placeholder="Enter username" value={this.state.name} onChange={this.handleChange("name")} />
