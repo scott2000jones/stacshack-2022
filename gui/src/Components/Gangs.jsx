@@ -29,6 +29,7 @@ class Gangs extends Component {
     componentDidMount() {
         this.requestTeams();
         this.requestPeople();
+
     }
 
     async requestTeams() {
