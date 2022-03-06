@@ -1,5 +1,5 @@
 
-@import url("https://fonts.googleapis.com/css2?family=Comfortaa&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Anton&display=swap");
 
 /* make the customizations */
 $theme-colors: (
@@ -10,9 +10,18 @@ $theme-colors: (
   "dark": #440204,
 );
 
-$font-family-base: Comfortaa;
+$font-family-base: Anton;
 
-$headings-font-family: Comfortaa;
+$headings-font-family: Anton;
+
+h1 {
+  font-size: 500px
+}
+
+textarea{
+  width:50%;
+  margin:auto;
+}
 
 /* import bootstrap to set changes */
 @import "~bootstrap/scss/bootstrap";

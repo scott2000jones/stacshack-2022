@@ -4,6 +4,8 @@ import {login as apiLogin} from "../lib/api";
 import {Button, Card, FormControl, FormGroup} from "react-bootstrap";
 import Form from "react-bootstrap/Form";
 import {Link} from "react-router-dom"
+import Row from "react-bootstrap/Row";
+import Col from "react-bootstrap/Col";
 
 class Login extends Component {
 
@@ -23,7 +25,8 @@ class Login extends Component {
         })
     }
 
-    async login() {
+    async login(e) {
+        e.preventDefault()
         const res = await apiLogin(this.state.name, this.state.password)
         if (res === "TRUE") {
             this.props.updateAuth(this.state.name)
@@ -36,24 +39,35 @@ class Login extends Component {
         return (
             <Card>
                 <Card.Body>
-                    <Card.Title>Sign In</Card.Title>
-                    <Form className='mt-5 border-secondary' onSubmit={this.login}>
+                    <Card.Title><h1>Sign In</h1></Card.Title>
+                    <Form className='mt-5 border-secondary' onClick={this.login}>
                         <FormGroup className="mt-2">
-                            <Form.Label>Username</Form.Label>
-                            <FormControl type="text" placeholder="Enter username" value={this.state.name} onChange={this.handleChange("name")} />
+                            <Row className= "justify-content-center">
+                                <Col xs={7}>
+                                    <FormControl type="text" placeholder="Enter username" value={this.state.name} onChange={this.handleChange("name")} />
+                                </Col>
+                            </Row>
                         </FormGroup>
                         <FormGroup className="mt-2">
-                            <Form.Label>Password</Form.Label>
-                            <FormControl type="password" placeholder="Enter password" value={this.state.password} onChange={this.handleChange("password")} />
+                            <Row className= "justify-content-center">
+                                <Col xs={7}>
+
+                                    <FormControl type="password" placeholder="Enter password" value={this.state.password} onChange={this.handleChange("password")} />
+                                </Col>
+                            </Row>
                         </FormGroup>
-                        <Button className= "mt-2" type="submit" variant="primary">Sign In</Button>
-                        <Link to={"/register"}>
-                            <span>Not registered? Sign Up!</span>
-                        </Link>
+                        <Button className= "mt-3" type="submit" variant="primary">Sign In</Button>
+                        <div className="mt-2">
+                            <Link to={"/register"} className="mt-2">
+                                <span>Not registered? Sign Up!</span>
+                            </Link>
+                        </div>
+
                     </Form>
                 </Card.Body>
             </Card>
         );
+
         // return (
         //     <form className='mt-5 border-secondary'>
         //         Logged In?: {this.props.auth.loggedIn ? "Yes" : "No"}

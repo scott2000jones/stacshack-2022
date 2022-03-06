@@ -3,6 +3,11 @@ import {register as apiRegister} from "../lib/api";
 import Form from 'react-bootstrap/Form'
 import {FormControl, FormGroup, Button, Card} from "react-bootstrap";
 import {Link} from "react-router-dom"
+import Navbar from "react-bootstrap/Navbar";
+import Nav from "react-bootstrap/Nav";
+import NavDropdown from "react-bootstrap/NavDropdown";
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
 
 class Register extends Component {
 
@@ -32,20 +37,28 @@ class Register extends Component {
         return (
             <Card>
                 <Card.Body>
-                    <Card.Title>Sign Up</Card.Title>
+                    <Card.Title><h1>Sign Up</h1></Card.Title>
                     <Form className='mt-5 border-secondary' onSubmit={this.register}>
                         <FormGroup className="mt-2">
-                            <Form.Label>Username</Form.Label>
+                            <Row className= "justify-content-center">
+                            <Col xs={7}>
                             <FormControl type="text" placeholder="Enter username" value={this.state.name} onChange={this.handleChange("name")} />
+                            </Col>
+                            </Row>
                         </FormGroup>
                         <FormGroup className="mt-2">
-                            <Form.Label>Password</Form.Label>
-                            <FormControl type="password" placeholder="Enter password" value={this.state.password} onChange={this.handleChange("password")} />
+                            <Row className= "justify-content-center">
+                            <Col xs={7}>
+                                <FormControl type="password" placeholder="Enter password" value={this.state.password} onChange={this.handleChange("password")} />
+                            </Col>
+                            </Row>
                         </FormGroup>
-                        <Button className= "mt-2" type="submit" variant="primary">Sign Up</Button>
-                        <Link to={"/login"}>
-                            <span>Already registered? Sign In!</span>
-                        </Link>
+                        <Button className= "mt-3" type="submit" variant="primary">Sign Up</Button>
+                        <div className="mt-2">
+                            <Link to={"/login"} className="mt-2">
+                                <span>Already registered? Sign In!</span>
+                            </Link>
+                        </div>
                     </Form>
                 </Card.Body>
             </Card>

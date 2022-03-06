@@ -65,7 +65,7 @@ render() {
             <Route path="/call" component={Call}/>
             <Route path = "/register" component={Register}/>
             <Route path="/gang/:id" component={Gang}/>
-            <Route exact path="/profile">
+            <Route exact path="/profile" >
               <Profile auth={this.state.auth} />
             </Route>
             {/*<Route path="/webrtc_test_page" component={Webrtc_test_page}/>*/}
