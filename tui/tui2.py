@@ -1,14 +1,18 @@
 import curses
+from math import ceil
 import requests as r
 
 # import pafy
-# import cv2
+import time
+import cv2
+import numpy as np
+
+# from vidgear.gears import CamGear
 
 import api
 
 FOOTER_HEIGHT=8
 LPANE_WIDTH=30
-
 
 user: str = None
 selected_gang: int = 0
@@ -16,7 +20,7 @@ selected_gang: int = 0
 gangs = []
 dms = []
 
-# video = False
+video = False
 
 commands = []
 
@@ -46,27 +50,68 @@ def draw_dms(w):
     # if not logged_in(): return
 
     w.addstr(0, LPANE_WIDTH//2-5, "Messages", curses.A_BOLD)
-    
-    for i, it in enumerate(dms):
-        s = f"{i}: {it}"
-        # style = curses.A_BOLD if i==selected_gang else curses.A_NORMAL
+    h, _ = w.getmaxyx()
+    for i, it in enumerate(dms[-h+2:]):
+        s = f"{it['sent_by']}: {it['content']}"
         w.addstr(i+1,1,s)
 
 
+def char_map(g: int) -> str:
+    grayRamp = '/|()1{}[]?-_+~<>i!lI;:,"^`\'. '
+    # $@B%8&WM#*oahkbdpqwmZO0QLCJUYXzcvunxrjft
+    rampLength = len(grayRamp)
+    return grayRamp[ceil((rampLength - 1) * (g / 255))]
+ 
+
 def draw_main_panel(w):
+    global video
     if user!=None:
         draw_dms(w)
 
-    # if video:
-    #     url = "https://www.youtube.com/watch?v=_9OBhtLA9Ig"
-    #     video = pafy.new(url)
-    #     best = video.getbest(preftype="mp4")
+    if video:
+        # url = "https://www.youtube.com/watch?v=q6EoRBvdVPQ"
+        cap = cv2.VideoCapture("videoplayback.mp4")
+        # Check if camera opened successfully
+        if (cap.isOpened()== False): 
+            print("Error opening video  file")
+        
+        # Read until video is completed
+        while(cap.isOpened()):
+                
+            # Capture frame-by-frame
+            ret, frame = cap.read()
+            if ret == True:
+                gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
+                height, width = w.getmaxyx()
+                dim = ((width-1), height)
+                # resize image
+                resized = cv2.resize(gray, dim, interpolation = cv2.INTER_CUBIC)
+                # w.clear()
+                for r, xs in enumerate(resized):
+                    for c, x in enumerate(xs):
+                        w.addstr(r,c,char_map(x))
+                        w.refresh()
+            
+                # Display the resulting frame
+                # cv2.imshow('Frame', frame)
+            
+                # Press Q on keyboard to  exit
+                w.nodelay(True)
+                if w.getch() == ord('q'):
+                    video = False
+                    reset_main(w)
+                    w.refresh()
+                    break
+            
+            # Break the loop
+            else: 
+                break
+   
+        # When everything done, release 
+        # the video capture object
+        cap.release()
 
-    #     capture = cv2.VideoCapture(best.url)
-    #     while True:
-    #         grabbed, frame = capture.read()
-    #         # ...
-
+   
 
 def reset_main(w):
         w.clear()
@@ -104,6 +149,7 @@ def curses_main(w):
         global gangs
         global selected_gang
         global dms
+        global video
 
         # refresh
         if cmd.startswith("poll"):
@@ -124,7 +170,6 @@ def curses_main(w):
                     dms = api.get_gang_dms(gangs[selected_gang])
             # TODO: print login prompt
             return success
-        
         
         # register
         if cmd.startswith("register "):
@@ -158,7 +203,6 @@ def curses_main(w):
             dms = api.get_gang_dms(gangs[selected_gang])
             return success
         
-
         # team join
         if cmd.startswith("join "):
             if not logged_in(): return
@@ -170,6 +214,12 @@ def curses_main(w):
                 # selected_gang = gangs.index(gang)
             # update gangs list
             return success
+
+        # vid start
+        if cmd.startswith("vid"):
+            video = True
+            return 'Yee'
+            
         
         return cmd
 
@@ -214,99 +264,6 @@ def curses_main(w):
 
         w.refresh()
 
-
-    """
-    This function is called curses_main to emphasise that it is
-    the logical if not actual main function, called by curses.wrapper.
-    Its purpose is to call several other functions to demonstrate
-    some of the functionality of curses.
-    """
-
-    w.addstr("-----------------\n")
-    w.addstr("| codedrome.com |\n")
-    w.addstr("| curses demo   |\n")
-    w.addstr("-----------------\n")
-    w.refresh()
-
-    printing(w)
-
-    moving_and_sleeping(w)
-
-    colouring(w)
-
-    w.addstr("\npress any key to exit...")
-    w.refresh()
-    w.getch()
-
-
-def printing(w):
-
-    """
-    A few simple demonstrations of printing.
-    """
-
-    w.addstr("This was printed using addstr\n\n")
-    w.refresh()
-
-    w.addstr("The following letter was printed using addch:- ")
-    w.addch('a')
-    w.refresh()
-
-    w.addstr("\n\nThese numbers were printed using addstr:-\n{}\n{:.6f}\n".format(123, 456.789))
-    w.refresh()
-
-
-def moving_and_sleeping(w):
-
-    """
-    Demonstrates moving the cursor to a specified position before printing,
-    and sleeping for a specified period of time.
-    These are useful for very basic animations.
-    """
-
-    row = 5
-    col = 0
-
-    curses.curs_set(False)
-
-    for c in range(65, 91):
-
-        w.addstr(row, col, chr(c))
-        w.refresh()
-        row += 1
-        col += 1
-        curses.napms(100)
-
-    curses.curs_set(True)
-
-    w.addch('\n')
-
-
-def colouring(w):
-
-    """
-    Demonstration of setting background and foreground colours.
-    """
-
-    if curses.has_colors():
-
-        curses.init_pair(1, curses.COLOR_YELLOW, curses.COLOR_RED)
-        curses.init_pair(2, curses.COLOR_GREEN, curses.COLOR_GREEN)
-        curses.init_pair(3, curses.COLOR_MAGENTA, curses.COLOR_CYAN)
-
-        w.addstr("Yellow on red\n\n", curses.color_pair(1))
-        w.refresh()
-
-        w.addstr("Green on green + bold\n\n", curses.color_pair(2) | curses.A_BOLD)
-        w.refresh()
-
-        w.addstr("Magenta on cyan\n", curses.color_pair(3))
-        w.refresh()
-
-    else:
-
-        w.addstr("has_colors() = False\n");
-        w.refresh()
 
 
 main()
