@@ -99,6 +99,7 @@ class Gangs extends Component {
         })
         .catch(err => this.setState({error: err.response}));
     }
+    
     render() {
         return (
             <Card>
