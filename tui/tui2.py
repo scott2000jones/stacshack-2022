@@ -57,7 +57,7 @@ def draw_dms(w):
 
 
 def char_map(g: int) -> str:
-    grayRamp = '/|()1{}[]?-_+~<>i!lI;:,"^`\'. '
+    grayRamp = '$@B%8&WM#*oahkbdp0QLCJUYXzcvunxrjft)1{}[]?-_+~<>i!lI;:,"^`\'. '
     # $@B%8&WM#*oahkbdpqwmZO0QLCJUYXzcvunxrjft
     rampLength = len(grayRamp)
     return grayRamp[ceil((rampLength - 1) * (g / 255))]
@@ -70,7 +70,7 @@ def draw_main_panel(w):
 
     if video:
         # url = "https://www.youtube.com/watch?v=q6EoRBvdVPQ"
-        cap = cv2.VideoCapture("videoplayback.mp4")
+        cap = cv2.VideoCapture("yee.mp4")
         # Check if camera opened successfully
         if (cap.isOpened()== False): 
             print("Error opening video  file")
