@@ -1,35 +1,41 @@
 # frontend terminal UI
-technology to be determined
+written with curses
 
 ## CLI language spec:
 
-not logged in:
-`login` username
-> prompt for pass
-<= true,false
+#### not logged in:
+`login` username pass
+> true,false
 
 `register` username
-> prompt for pass
-<= Ok! log in
+> Ok! then log in
 
-# logged in:
+#### logged in:
 display gangs pane
 
 `logout`
+> not implemented, instead exit or login as someone else
 
 `mkdir` gang_name
-create a new gang
 
-`cd` gang
-select active gang
-< render dms
+> create a new gang
+
+`cd` gang_index
+
+> select active gang
 
 `join` gang_name
-join a gang
+
+> join a gang
 
 `call`
-start a gang call
+> not implemented
 
-`say` words
-write a message
+`write` words
+
+> write a message to the gang
+
+`vid*`
+
+> watch a vid (with the gang coming soon)
 
